@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+const BASE_URL = "anvaya-backend-zeta.vercel.app";
 
-export const leadsSlice = createSlice({
+const leadsSlice = createSlice({
   name: "leads",
   initialState: {
     leads: [],
