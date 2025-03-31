@@ -47,10 +47,15 @@ const leadsSlice = createSlice({
   name: "leads",
   initialState: {
     leads: [],
+    filterStatus: "",
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setFilterStatus: (state, action) => {
+      state.filterStatus = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchLeads.pending, (state) => {
       state.status = "loading";
@@ -79,5 +84,7 @@ const leadsSlice = createSlice({
     });
   },
 });
+
+export const { setFilterStatus } = leadsSlice.actions;
 
 export default leadsSlice.reducer;

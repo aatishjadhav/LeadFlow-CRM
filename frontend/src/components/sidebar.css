@@ -2,7 +2,9 @@
   background-color: bisque;
   width: 200px;
   height: 630px;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  
 }
 .home {
   display: flex;
@@ -51,4 +53,5 @@
     color: white;
     border: 0;
     border-radius: 6px;
+    cursor: pointer;
 }
