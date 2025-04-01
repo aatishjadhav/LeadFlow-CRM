@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads, setFilterStatus } from "../slices/leadsSlice";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import './home.css';
 
 const Home = ({ homeMenu }) => {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const Home = ({ homeMenu }) => {
     : leads;
   
   const handleAddLead = () => {
-    navigate("/leadForm");
+    navigate("/add-lead");
   }
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Home = ({ homeMenu }) => {
                 <div key={index}>
                   <div className="item">
                     <span>Lead:</span>
-                    <span className="">{lead.name}</span>
+                    <span className=""><Link className="link" to={`/leads/${lead._id}`}>{lead.name}</Link></span>
                   </div>
                 </div>
               ))}

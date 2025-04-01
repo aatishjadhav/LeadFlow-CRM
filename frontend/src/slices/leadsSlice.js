@@ -13,6 +13,15 @@ export const fetchLeads = createAsyncThunk(
   }
 );
 
+export const fetchComments = createAsyncThunk("leads/fetchComments", async (leadId) => {
+  const response = await axios.get(`${BASE_URL}/leads/${leadId}/comments`);
+  console.log("response from slice", response);
+
+  return response.data;
+});
+
+
+
 export const addNewLead = createAsyncThunk(
   "leads/addNewlead",
   async (leadData) => {
@@ -47,6 +56,7 @@ const leadsSlice = createSlice({
   name: "leads",
   initialState: {
     leads: [],
+    comments: [],
     filterStatus: "",
     status: "idle",
     error: null,
@@ -64,6 +74,11 @@ const leadsSlice = createSlice({
       state.status = "success";
       state.leads = action.payload;
     });
+    builder.addCase(fetchComments.fulfilled, (state, action) => {
+      state.status = "success";
+      state.comments = action.payload;
+    });
+   
     builder.addCase(addNewLead.fulfilled, (state, action) => {
       state.status = "success";
       state.leads.push(action.payload);
