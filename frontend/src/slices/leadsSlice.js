@@ -58,13 +58,15 @@ const leadsSlice = createSlice({
     leads: [],
     comments: [],
     filterStatus: "",
+   
     status: "idle",
     error: null,
   },
   reducers: {
     setFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
-    }
+    },
+    
   },
   extraReducers: (builder) => {
     builder.addCase(fetchLeads.pending, (state) => {

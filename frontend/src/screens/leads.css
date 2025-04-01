@@ -12,14 +12,3 @@
   text-decoration: none;
 }
 
-.list{
-    display: flex;
-    flex-direction: column;    
-}
-.mains{
-    display: flex;
-}
-.mains h2{
-    text-align: center;
-    width: 70%;
-}
