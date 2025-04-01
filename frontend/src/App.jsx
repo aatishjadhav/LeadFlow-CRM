@@ -27,6 +27,7 @@ function App() {
           <Route path="/agents" element={<Agents />} />
           <Route path="/leads/:leadId" element={<LeadDetails leadMenu={leadMenu} />} />
           <Route path="/add-lead" element={<LeadForm/>} />
+          <Route path="/edit-lead/:leadId" element={<LeadForm/>} />
         </Routes>
       </div>
     </>

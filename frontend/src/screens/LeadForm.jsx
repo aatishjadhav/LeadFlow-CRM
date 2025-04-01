@@ -1,10 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { addNewLead } from "../slices/leadsSlice";
+import { useEffect, useState } from "react";
+import { addNewLead, updateLead } from "../slices/leadsSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LeadForm = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const { leads } = useSelector((state) => state.leads);
+
+  const leadToEdit = location.state?.getLead || null;
+  console.log("lead to edit", leadToEdit);
+
   const [name, setName] = useState("");
   const [source, setSource] = useState("Website");
   const [salesAgent, setSalesAgent] = useState("");
@@ -13,9 +21,21 @@ const LeadForm = () => {
   const [timeToClose, setTimeToClose] = useState("");
   const [tags, setTags] = useState("");
 
+  useEffect(() => {
+    if (leadToEdit) {
+      setName(leadToEdit.name);
+      setSource(leadToEdit.source);
+      setSalesAgent(leadToEdit.salesAgent.name);
+      setStatus(leadToEdit.status);
+      setTags(leadToEdit.tags);
+      setTimeToClose(leadToEdit.timeToClose);
+      setPriority(leadToEdit.priority);
+    }
+  }, [leadToEdit]);
+
   const handleAdd = (e) => {
     e.preventDefault();
-    const newLead = {
+    const leadData = {
       name,
       source,
       salesAgent,
@@ -24,19 +44,34 @@ const LeadForm = () => {
       timeToClose,
       priority,
     };
-    dispatch(addNewLead(newLead));
+    if (leadToEdit) {
+      const leadId = leadToEdit._id;
+      dispatch(updateLead({ leadId, leadData }));
+    } else {
+      dispatch(addNewLead(leadData));
+    }
+    navigate("/");
   };
   return (
     <div>
-      <h1>Add New Lead</h1>
+      <h1>{leadToEdit ? "Update Lead" : "Add New Lead"}</h1>
       <form action="" onSubmit={handleAdd}>
         <label htmlFor="">Lead Name:</label>
-        <input type="text" onChange={(e) => setName(e.target.value)} />
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <br />
         <br />
 
         <label htmlFor="">Lead Source:</label>
-        <select name="" id="" onChange={(e) => setSource(e.target.value)}>
+        <select
+          name=""
+          id=""
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+        >
           <option value="Website">Website</option>
           <option value="Referral">Referral</option>
           <option value="Cold Call">Cold Call</option>
@@ -64,7 +99,10 @@ const LeadForm = () => {
         <br /> */}
 
         <label htmlFor="">Sales Agent:</label>
-        <select onChange={(e) => setSalesAgent(e.target.value)}>
+        <select
+          value={salesAgent}
+          onChange={(e) => setSalesAgent(e.target.value)}
+        >
           {leads
             .filter(
               (lead, index, self) =>
@@ -85,7 +123,12 @@ const LeadForm = () => {
         <br />
 
         <label htmlFor="">Lead Status:</label>
-        <select name="" id="" onChange={(e) => setStatus(e.target.value)}>
+        <select
+          name=""
+          id=""
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value="New">New</option>
           <option value="Contacted">Contacted</option>
           <option value="Proposal Sent">Proposal Sent</option>
@@ -96,7 +139,12 @@ const LeadForm = () => {
         <br />
 
         <label htmlFor="">Priority:</label>
-        <select name="" id="" onChange={(e) => setPriority(e.target.value)}>
+        <select
+          name=""
+          id=""
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+        >
           <option value="High">High</option>
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
@@ -108,13 +156,14 @@ const LeadForm = () => {
         <input
           type="number"
           placeholder="Number of Days"
+          value={timeToClose}
           onChange={(e) => setTimeToClose(e.target.value)}
         />
         <br />
         <br />
 
         <label htmlFor="">Tags:</label>
-        <select onChange={(e) => setTags(e.target.value)}>
+        <select value={tags} onChange={(e) => setTags(e.target.value)}>
           {leads.map((lead) =>
             lead.tags && Array.isArray(lead.tags) ? (
               <option key={lead._id} value={lead.tags.join(", ")}>
@@ -127,7 +176,7 @@ const LeadForm = () => {
         <br />
         <br />
 
-        <button>Add</button>
+        <button>{leadToEdit ? "Update" : "Add"}</button>
       </form>
     </div>
   );
