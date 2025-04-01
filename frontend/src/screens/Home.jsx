@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads, setFilterStatus } from "../slices/leadsSlice";
-import Sidebar from "../components/Sidebar";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 
 const Home = ({ homeMenu }) => {
@@ -37,23 +36,19 @@ const Home = ({ homeMenu }) => {
   }, [dispatch]);
   return (
     <>
-      <h1 className="heading">Anvaya CRM Dashboard</h1>
+      {/* <h1 className="heading">Anvaya CRM Dashboard</h1> */}
       <div className="home">
-        <Sidebar menuItems={homeMenu} />
-        <div className="home1">
-          <div className="lead">
-            <h3>Leads:</h3>
-            <div className="list">
-              {filteredLeads.map((lead, index) => (
-                <div key={index}>
-                  <div className="item">
-                    <span>Lead:</span>
-                    <span className=""><Link className="link" to={`/leads/${lead._id}`}>{lead.name}</Link></span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="leads">
+          <h2>Leads:</h2>
+        </div>
+        <div className="data">
+          <ul className="data">
+            {filteredLeads.map((lead) => (
+              <li className="item"><Link className="nav-link nav" to={`/leads/${lead._id}`}>{lead.name}</Link></li>
+            ))}
+          </ul>
+        </div>
+      </div>
           <div className="status">
             <h3>Lead Status:</h3>
             <p>New: [{leadCounts.new}] Leads</p>
@@ -79,8 +74,8 @@ const Home = ({ homeMenu }) => {
             Contacted
           </div>
           <button className="lead-btn" onClick={handleAddLead}>Add New Lead</button>
-        </div>
-      </div>
+        
+      
     </>
   );
 };

@@ -1,8 +1,9 @@
-.home {
+/* .home {
   display: flex;
-  flex-wrap: wrap;
+
 }
 .home1 {
+
   flex: 1;
   padding: 1rem;
 }
@@ -14,19 +15,34 @@
   list-style: none;
   display: flex;
   justify-content: space-evenly;
-  flex-wrap: wrap;
+ 
   gap: 12px;
 }
 .item {
   background-color: aquamarine;
   padding: 1rem;
-  display: flex;
+ 
   gap: 12px;
   margin-left: 12px;
-  
 }
 .lead {
   display: flex;
+} */
+.home {
+  display: flex;
+}
+.data {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.item {
+  list-style: none;
+  background-color: aquamarine;
+  padding: 1rem;
+}
+.nav {
+  text-decoration: none;
 }
 .status {
   margin-top: 36px;
