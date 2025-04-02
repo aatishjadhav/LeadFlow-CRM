@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./leads.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const Leads = () => {
   const navigate = useNavigate();
 
   const { leads } = useSelector((state) => state.leads);
-  console.log("leads from Leads", leads);
+  const { agents } = useSelector((state) => state.agents);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [salesAgentFilter, setSalesAgentFilter] = useState("");
@@ -59,24 +59,26 @@ const Leads = () => {
           value={salesAgentFilter}
           onChange={(e) => setSalesAgentFilter(e.target.value)}
         >
-          {leads
+          {/* {agents
             .filter(
               (lead, index, self) =>
                 index ===
                 self.findIndex(
-                  (t) => t.salesAgent?._id === lead.salesAgent?._id
+                  (t) => t._id === lead.salesAgent?._id
                 )
             )
             .map((lead) =>
-              lead.salesAgent ? (
-                <option key={lead.salesAgent._id} value={lead.salesAgent.name}>
-                  {lead.salesAgent.name}
-                </option>
+              lead.name ? (
+                <option value={agent.name}>{agent.name}</option>
               ) : null
-            )}
+            )} */}
+          {agents?.map((agent) => (
+            <option value={agent.name}>{agent.name}</option>
+          ))}
         </select>
         <br />
         <br />
+       
       </div>
       <button className="lead-btn" onClick={handleAddLead}>
         Add New Lead

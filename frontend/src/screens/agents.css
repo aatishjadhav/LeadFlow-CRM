@@ -1,0 +1,17 @@
+.agents {
+  list-style: none;
+  padding-top: 12px;
+}
+.agent-main {
+  padding-inline-start: 0;
+}
+.agent-btn {
+  text-decoration: none;
+  background-color: rgb(66, 66, 207);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+.agents-add {
+  padding-top: 24px;
+}

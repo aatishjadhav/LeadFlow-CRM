@@ -7,6 +7,7 @@ import LeadForm from "./screens/LeadForm";
 import Sidebar from "./components/Sidebar";
 import "./App.css";
 import Report from "./screens/Reports";
+import AgentForm from "./screens/AgentForm";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/add-lead" element={<LeadForm />} />
             <Route path="/edit-lead/:leadId" element={<LeadForm />} />
             <Route path="/report" element={<Report />} />
+            <Route path="/agents/add-new" element={<AgentForm/>} />
           </Routes>
         </div>
       </div>

@@ -46,7 +46,7 @@ function Sidebar() {
 
   // Routes that should show "Back to Dashboard"
   const showBackOption =
-    ["/leads", "/agents", "/report", "/add-lead"].includes(location.pathname) ||
+    ["/leads", "/agents", "/report", "/add-lead", "/agents/add-new"].includes(location.pathname) ||
     location.pathname.startsWith("/leads/") ||
     location.pathname.startsWith("/edit-lead");
 

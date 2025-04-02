@@ -9,6 +9,7 @@ const LeadForm = () => {
   const navigate = useNavigate();
 
   const { leads } = useSelector((state) => state.leads);
+  const { agents } = useSelector((state) => state.agents);
 
   const leadToEdit = location.state?.getLead || null;
   console.log("lead to edit", leadToEdit);
@@ -82,42 +83,29 @@ const LeadForm = () => {
         <br />
         <br />
 
-        {/* <label htmlFor="">Sales Agent:</label>
-        <select onChange={(e) => setSalesAgent(e.target.value)}>
-          {leads.map((lead, index) =>
-            lead.salesAgent ? (
-              <option
-                key={`${lead?.salesAgent?._id}-${index}`}
-                value={lead?.salesAgent?._id}
-              >
-                {lead.salesAgent.name}
-              </option>
-            ) : null
-          )}
-        </select>
-        <br />
-        <br /> */}
-
         <label htmlFor="">Sales Agent:</label>
         <select
           value={salesAgent}
           onChange={(e) => setSalesAgent(e.target.value)}
         >
-          {leads
+          {/* {leads
             .filter(
               (lead, index, self) =>
                 index ===
                 self.findIndex(
                   (t) => t.salesAgent?._id === lead.salesAgent?._id
                 )
-            ) // Filter unique sales agents
+            ) 
             .map((lead) =>
               lead.salesAgent ? (
                 <option key={lead.salesAgent._id} value={lead.salesAgent._id}>
                   {lead.salesAgent.name}
                 </option>
               ) : null
-            )}
+            )} */}
+          {agents?.map((agent) => (
+            <option value={agent.name}>{agent.name}</option>
+          ))}
         </select>
         <br />
         <br />
