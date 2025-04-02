@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import "./leads.css";
 import { useNavigate } from "react-router-dom";
+import { fetchAgents } from "../slices/agentsSlice";
 
 const Leads = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,11 @@ const Leads = () => {
 
   const handleAddLead = () => {
     navigate("/add-lead");
-  };
+    };
+    
+    useEffect(() => {
+        dispatch(fetchAgents());
+    }, [dispatch])
 
   return (
     <div>

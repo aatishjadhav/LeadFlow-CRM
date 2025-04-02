@@ -12,3 +12,8 @@
   text-decoration: none;
 }
 
+.report{
+    display: flex;
+    gap: 6rem;
+    flex-wrap: wrap;
+}

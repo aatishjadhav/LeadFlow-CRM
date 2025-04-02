@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./screens/Home";
 import Leads from "./screens/Leads";
 import Agents from "./screens/Agents";
@@ -8,15 +8,17 @@ import Sidebar from "./components/Sidebar";
 import "./App.css";
 import Report from "./screens/Reports";
 import AgentForm from "./screens/AgentForm";
+import LeadReport from "./screens/LeadReport";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
-      <h1 className="heading" style={{ textAlign: "center" }}>
-        Anvaya CRM Dashboard
-      </h1>
+      <Navbar />
       <div className="main">
-        <Sidebar />
+        <div className="side">
+          <Sidebar />
+        </div>
 
         <div className="route">
           <Routes>
@@ -26,8 +28,9 @@ function App() {
             <Route path="/leads/:leadId" element={<LeadDetails />} />
             <Route path="/add-lead" element={<LeadForm />} />
             <Route path="/edit-lead/:leadId" element={<LeadForm />} />
-            <Route path="/report" element={<Report />} />
-            <Route path="/agents/add-new" element={<AgentForm/>} />
+
+            <Route path="/agents/add-new" element={<AgentForm />} />
+            <Route path="/report" element={<LeadReport />} />
           </Routes>
         </div>
       </div>
