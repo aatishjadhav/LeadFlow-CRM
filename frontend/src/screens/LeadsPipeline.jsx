@@ -10,9 +10,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const LeadsPipeline = () => {
   const dispatch = useDispatch();
   const { leads } = useSelector((state) => state.leads);
-  const totalLeadsInPipeline = useSelector(
-    (state) => state.leads.totalLeadsInPipeline
-  );
+  const { totalLeadsInPipeline } = useSelector((state) => state.leads);
 
   useEffect(() => {
     dispatch(fetchPipelineData());

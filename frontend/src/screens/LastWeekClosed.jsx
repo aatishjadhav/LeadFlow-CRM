@@ -14,7 +14,7 @@ import {
 // Register Chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ClosedLeadsChart = () => {
+const LastWeekClosed = () => {
   const dispatch = useDispatch();
   const { closedLeads } = useSelector((state) => state.leads);
 
@@ -33,9 +33,9 @@ const ClosedLeadsChart = () => {
 
   // Labels (Sales Agents) & Data (Number of Closed Leads)
   const labels = Object.keys(agentData);
-    const leadCounts = labels.map((agent) => agentData[agent].length);
-    
-    const maxCount = Math.max(...Object.values(leadCounts), 10); 
+  const leadCounts = labels.map((agent) => agentData[agent].length);
+
+  const maxCount = Math.max(...Object.values(leadCounts), 10);
 
   // Chart Data
   const data = {
@@ -56,21 +56,21 @@ const ClosedLeadsChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-        y: {
-          beginAtZero: true,
-          suggestedMax: maxCount + Math.ceil(maxCount * 0.1),
-          ticks: {
-            stepSize: Math.ceil(maxCount / 5),
-          },
-        },
-        x: {
-          ticks: {
-            autoSkip: false, // Ensures all labels are visible
-          },
-          barPercentage: 0.5, // Decrease bar width (default is 0.9)
-          categoryPercentage: 0.6, // Controls spacing between bars
+      y: {
+        beginAtZero: true,
+        suggestedMax: maxCount + Math.ceil(maxCount * 0.1),
+        ticks: {
+          stepSize: Math.ceil(maxCount / 5),
         },
       },
+      x: {
+        ticks: {
+          autoSkip: false, // Ensures all labels are visible
+        },
+        barPercentage: 0.5, // Decrease bar width (default is 0.9)
+        categoryPercentage: 0.6, // Controls spacing between bars
+      },
+    },
     plugins: {
       legend: { position: "top" },
       tooltip: {
@@ -80,7 +80,12 @@ const ClosedLeadsChart = () => {
             const leads = agentData[agent];
 
             return leads
-              .map((lead) => `${lead.name} (Closed: ${new Date(lead.closedAt).toLocaleDateString()})`)
+              .map(
+                (lead) =>
+                  `${lead.name} (Closed: ${new Date(
+                    lead.closedAt
+                  ).toLocaleDateString()})`
+              )
               .join("\n");
           },
         },
@@ -89,7 +94,7 @@ const ClosedLeadsChart = () => {
   };
 
   return (
-    <div style={{ width: "600px"}}>
+    <div style={{ width: "600px" }}>
       <h2>Closed Leads (Last Week)</h2>
       <div style={{ height: "400px" }}>
         <Bar data={data} options={options} />
@@ -98,5 +103,4 @@ const ClosedLeadsChart = () => {
   );
 };
 
-export default ClosedLeadsChart;
-
+export default LastWeekClosed;

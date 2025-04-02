@@ -113,8 +113,8 @@
 
 import ClosedLeadsBySalesAgent from "./ClosedLeadsBySalesAgent"
 import LastWeekClosed from "./LastWeekClosed"
-import LeadPieChart from "./LeadBarChart"
-import LeadsPipeline from "./LeadStatusChart"
+import LeadPieChart from "./LeadPieChart"
+import LeadsPipeline from "./LeadsPipeline"
 
 
 const LeadReport = () => {
