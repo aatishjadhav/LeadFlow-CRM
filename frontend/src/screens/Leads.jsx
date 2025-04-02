@@ -13,13 +13,6 @@ const Leads = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [salesAgentFilter, setSalesAgentFilter] = useState("");
 
-  //   const filteredLeads = leads.filter((lead) => {
-  //     return (
-  //       (!statusFilter || lead.status === statusFilter) &&
-  //       (!salesAgentFilter || lead.salesAgent?.name === salesAgentFilter)
-  //     );
-  //   });
-
   const [sortByPriority, setSortByPriority] = useState("");
   const [sortByTimeToClose, setSortByTimeToClose] = useState("");
 
@@ -30,36 +23,30 @@ const Leads = () => {
         (!salesAgentFilter || lead.salesAgent?.name === salesAgentFilter)
       );
     })
+
     .sort((a, b) => {
       const priorityOrder = { High: 3, Medium: 2, Low: 1 };
 
-      // Step 1: Sort by priority first
+      // First, sort by priority if selected
       if (sortByPriority) {
-        if (sortByPriority === "High") {
-          if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-            return priorityOrder[b.priority] - priorityOrder[a.priority];
-          }
-        } else if (sortByPriority === "Medium") {
-          if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-            if (a.priority === "Medium") return -1;
-            if (b.priority === "Medium") return 1;
-            return priorityOrder[b.priority] - priorityOrder[a.priority];
-          }
-        } else if (sortByPriority === "Low") {
-          if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-            return priorityOrder[a.priority] - priorityOrder[b.priority];
-          }
+        const priorityDiff =
+          priorityOrder[b.priority] - priorityOrder[a.priority];
+
+        if (sortByPriority === "High" && priorityDiff !== 0) {
+          return priorityDiff; // Sort High to Low
+        } else if (sortByPriority === "Low" && priorityDiff !== 0) {
+          return -priorityDiff; // Sort Low to High
         }
       }
 
-      // Step 2: Within the same priority, sort by timeToClose
+      // Then, sort by Time to Close if selected
       if (sortByTimeToClose) {
         return sortByTimeToClose === "asc"
           ? a.timeToClose - b.timeToClose
           : b.timeToClose - a.timeToClose;
       }
 
-      return 0;
+      return 0; // No sorting
     });
 
   const handleAddLead = () => {
