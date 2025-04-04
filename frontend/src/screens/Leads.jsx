@@ -1,40 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { fetchLeads } from "../slices/leadsSlice";
 import { fetchAgents } from "../slices/agentsSlice";
 import "./leads.css";
 
 const Leads = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Get leads and agents from Redux store
   const { leads } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.agents);
 
-  // Get filters from URL
-  const initialStatus = searchParams.get("status") || "";
-  const initialAgent = searchParams.get("salesAgent") || "";
-  const initialSource = searchParams.get("source") || "";
+  // Extract filter values from URL
+  const filters = {
+    status: searchParams.get("status") || "",
+    salesAgent: searchParams.get("salesAgent") || "",
+    source: searchParams.get("source") || "",
+  };
 
-  const [statusFilter, setStatusFilter] = useState(initialStatus);
-  const [salesAgentFilter, setSalesAgentFilter] = useState(initialAgent);
-  const [sourceFilter, setSourceFilter] = useState(initialSource);
-
+  // Fetch leads and agents when component loads or filters change
   useEffect(() => {
     dispatch(fetchAgents());
-    dispatch(fetchLeads(Object.fromEntries(searchParams.entries()))); 
+    dispatch(fetchLeads(filters));
   }, [dispatch, searchParams]);
 
-  // Update URL when filters change
+  // Function to update filters in URL
   const updateFilters = (key, value) => {
     const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set(key, value);
-    } else {
-      newParams.delete(key);
-    }
+    value ? newParams.set(key, value) : newParams.delete(key);
     setSearchParams(newParams);
   };
 
@@ -47,15 +42,9 @@ const Leads = () => {
 
         {/* Status Filter */}
         <label>Status:</label>
-        <select
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            updateFilters("status", e.target.value);
-          }}
-        >
+        <select value={filters.status} onChange={(e) => updateFilters("status", e.target.value)}>
           <option value="">All</option>
-          {[...new Set(leads.map((lead) => lead.status))].map((status) => (
+          {["New", "Contacted", "Qualified", "Proposal Sent", "Closed"].map((status) => (
             <option key={status} value={status}>
               {status}
             </option>
@@ -66,18 +55,12 @@ const Leads = () => {
 
         {/* Sales Agent Filter */}
         <label>Sales Agent:</label>
-        <select
-          value={salesAgentFilter}
-          onChange={(e) => {
-            setSalesAgentFilter(e.target.value);
-            updateFilters("salesAgent", e.target.value);
-          }}
-        >
+        <select value={filters.salesAgent} onChange={(e) => updateFilters("salesAgent", e.target.value)}>
           <option value="">All</option>
           {agents?.map((agent) => (
-           <option key={agent._id} value={agent._id}>
-           {agent.name}
-         </option>
+            <option key={agent._id} value={agent._id}>
+              {agent.name}
+            </option>
           ))}
         </select>
 
@@ -85,15 +68,9 @@ const Leads = () => {
 
         {/* Source Filter */}
         <label>Source:</label>
-        <select
-          value={sourceFilter}
-          onChange={(e) => {
-            setSourceFilter(e.target.value);
-            updateFilters("source", e.target.value);
-          }}
-        >
+        <select value={filters.source} onChange={(e) => updateFilters("source", e.target.value)}>
           <option value="">All</option>
-          {[...new Set(leads.map((lead) => lead.source))].map((source) => (
+          {["Website", "Referral", "Social Media", "Cold Call", "Email", "Advertisement"].map((source) => (
             <option key={source} value={source}>
               {source}
             </option>
@@ -101,10 +78,11 @@ const Leads = () => {
         </select>
       </div>
 
+      {/* Leads List */}
       <ul>
         {leads.map((lead, index) => (
           <li key={lead._id}>
-            [{index + 1}] - [{lead.status}] - [{lead.salesAgent?.name}] - [{lead.source}]
+            [{index + 1}] - [{lead.status}] - [{lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
           </li>
         ))}
       </ul>
@@ -113,6 +91,7 @@ const Leads = () => {
 };
 
 export default Leads;
+
 
 
 // import { useDispatch, useSelector } from "react-redux";
