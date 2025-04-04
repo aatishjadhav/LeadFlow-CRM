@@ -21,6 +21,7 @@
 import { useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
+import { MdMenu, MdClose } from "react-icons/md";
 
 const homeMenu = [
   { name: "Leads", link: "/leads" },
@@ -55,6 +56,7 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
+      
       <ul>
         {menuItems.map((item, index) => (
           <li key={index} className="list-items">
@@ -69,3 +71,5 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+

@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: bisque;
+  background-color: lightgrey;
   width: 200px;
   height: 638px;
   padding: 0.5rem 0;
@@ -11,4 +11,7 @@
     list-style: none;
     padding-top: 2rem;
     font-size: 20px;
+    color: black;
   }
+  
+  
