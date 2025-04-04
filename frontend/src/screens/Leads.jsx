@@ -42,20 +42,37 @@ const Leads = () => {
 
         {/* Status Filter */}
         <label>Status:</label>
-        <select value={filters.status} onChange={(e) => updateFilters("status", e.target.value)}>
+        {/* <select value={filters.status} onChange={(e) => updateFilters("status", e.target.value)}>
           <option value="">All</option>
           {["New", "Contacted", "Qualified", "Proposal Sent", "Closed"].map((status) => (
             <option key={status} value={status}>
               {status}
             </option>
           ))}
+        </select> */}
+
+        {/* This is dynamic dropdown */}
+        <select
+          value={filters.status}
+          onChange={(e) => updateFilters("status", e.target.value)}
+        >
+          <option value="">All</option>
+          {[...new Set(leads.map((lead) => lead.status))].map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
         </select>
 
-        <br /><br />
+        <br />
+        <br />
 
         {/* Sales Agent Filter */}
         <label>Sales Agent:</label>
-        <select value={filters.salesAgent} onChange={(e) => updateFilters("salesAgent", e.target.value)}>
+        <select
+          value={filters.salesAgent}
+          onChange={(e) => updateFilters("salesAgent", e.target.value)}
+        >
           <option value="">All</option>
           {agents?.map((agent) => (
             <option key={agent._id} value={agent._id}>
@@ -64,13 +81,27 @@ const Leads = () => {
           ))}
         </select>
 
-        <br /><br />
+        <br />
+        <br />
 
         {/* Source Filter */}
         <label>Source:</label>
-        <select value={filters.source} onChange={(e) => updateFilters("source", e.target.value)}>
+        {/* <select value={filters.source} onChange={(e) => updateFilters("source", e.target.value)}>
           <option value="">All</option>
           {["Website", "Referral", "Social Media", "Cold Call", "Email", "Advertisement"].map((source) => (
+            <option key={source} value={source}>
+              {source}
+            </option>
+          ))}
+        </select> */}
+
+        {/* This is dynamic dropdown */}
+        <select
+          value={filters.source}
+          onChange={(e) => updateFilters("source", e.target.value)}
+        >
+          <option value="">All</option>
+          {[...new Set(leads.map((lead) => lead.source))].map((source) => (
             <option key={source} value={source}>
               {source}
             </option>
@@ -82,7 +113,8 @@ const Leads = () => {
       <ul>
         {leads.map((lead, index) => (
           <li key={lead._id}>
-            [{index + 1}] - [{lead.status}] - [{lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
+            [{index + 1}] - [{lead.status}] - [
+            {lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
           </li>
         ))}
       </ul>
@@ -91,8 +123,6 @@ const Leads = () => {
 };
 
 export default Leads;
-
-
 
 // import { useDispatch, useSelector } from "react-redux";
 // import { useEffect, useState } from "react";
@@ -114,8 +144,6 @@ export default Leads;
 //   const [salesAgentFilter, setSalesAgentFilter] = useState("");
 //   const [sortByPriority, setSortByPriority] = useState("");
 //   const [sortByTimeToClose, setSortByTimeToClose] = useState("");
-
-  
 
 //   // 2. Update query when filters change
 //   useEffect(() => {
@@ -210,5 +238,3 @@ export default Leads;
 // };
 
 // export default Leads;
-
-
