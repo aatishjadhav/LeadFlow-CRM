@@ -164,7 +164,7 @@ const LeadForm = () => {
         <br />
         <br />
 
-        <button>{leadToEdit ? "Update" : "Add"}</button>
+        <button className="leads-btn">{leadToEdit ? "Update" : "Add"}</button>
       </form>
     </div>
   );

@@ -15,3 +15,12 @@
 .agents-add {
   padding-top: 24px;
 }
+.agents-btn {
+  text-decoration: none;
+  background-color: rgb(66, 66, 207);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}

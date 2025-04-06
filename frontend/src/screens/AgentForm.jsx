@@ -1,7 +1,9 @@
 import { useState } from "react";
+import "./agents.css";
 import { useDispatch } from "react-redux";
 import { addNewAgent } from "../slices/agentsSlice";
 import { useNavigate } from "react-router-dom";
+
 
 const AgentForm = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const AgentForm = () => {
         <input type="email" onChange={(e) => setEmail(e.target.value)} />
         <br />
         <br />
-        <button type="submit">Create Agent</button>
+        <button type="submit" className="agents-btn">Create Agent</button>
       </form>
     </div>
   );

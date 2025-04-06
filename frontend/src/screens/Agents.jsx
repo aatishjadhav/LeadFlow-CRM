@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAgents } from "../slices/agentsSlice";
 import "./agents.css";
 import { Link } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const Agents = () => {
   const dispatch = useDispatch();
-  const { agents } = useSelector((state) => state.agents);
+  const { agents, status, error } = useSelector((state) => state.agents);
   console.log("agents from screen", agents);
 
   useEffect(() => {
@@ -15,15 +16,33 @@ const Agents = () => {
   return (
     <div>
       <h1>Sales Agent List</h1>
-      <ul className="agent-main">
-        {agents?.map((agent) => (
-          <li key={agent._id} className="agents">
-            Agent: [{agent.name}] - Email: [{agent.email}]
-          </li>
-        ))}
-      </ul>
+      {status === "loading" ? (
+        <RotatingLines
+          visible={true}
+          height="96"
+          width="96"
+          color="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      ) : (
+        <ul className="agent-main">
+          {agents?.map((agent) => (
+            <li key={agent._id} className="agents">
+              Agent: [{agent.name}] - Email: [{agent.email}]
+            </li>
+          ))}
+        </ul>
+      )}
+      {error && <p>{error}</p>}
+
       <div className="agents-add">
-        <Link to="/agents/add-new" className="nav-link agent-btn">Add Agent</Link>
+        <Link to="/agents/add-new" className="nav-link agent-btn">
+          Add Agent
+        </Link>
       </div>
     </div>
   );

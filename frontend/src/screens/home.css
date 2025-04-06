@@ -65,3 +65,8 @@
 .details {
   padding: 1rem;
 }
+.spinner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

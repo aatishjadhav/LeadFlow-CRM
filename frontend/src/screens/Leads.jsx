@@ -10,7 +10,7 @@ const Leads = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Get leads and agents from Redux store
-  const { leads } = useSelector((state) => state.leads);
+  const { leads, status } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.agents);
 
   // Extract filter values from URL
