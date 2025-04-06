@@ -13,7 +13,6 @@ const Home = () => {
   const { leads, filterStatus, status, error } = useSelector(
     (state) => state.leads
   );
-  console.log("from home", leads);
 
   const leadCounts = leads.reduce(
     (acc, curr) => {
@@ -62,7 +61,7 @@ const Home = () => {
           ) : (
             <ul className="data">
               {filteredLeads.map((lead) => (
-                <li className="item">
+                <li className="item" key={lead._id}>
                   <Link className="nav-link nav" to={`/leads/${lead._id}`}>
                     {lead.name}
                   </Link>

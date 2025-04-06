@@ -10,6 +10,7 @@ import Report from "./screens/Reports";
 import AgentForm from "./screens/AgentForm";
 import LeadReport from "./screens/LeadReport";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/agents/add-new" element={<AgentForm />} />
             <Route path="/report" element={<LeadReport />} />
           </Routes>
+          <ToastContainer position="top-right" autoClose={3000} />
         </div>
       </div>
     </>

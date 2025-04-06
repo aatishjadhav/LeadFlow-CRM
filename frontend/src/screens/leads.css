@@ -22,4 +22,15 @@
   padding: 0.3rem;
   border-radius: 4px;
   width: 80px;
+  border: none;
+  cursor: pointer;
+}
+.leads{
+  text-decoration: none;
+  list-style: none;
+  margin-left: 0;
+  padding-inline-start: 0;
+}
+.list{
+  padding-top: 18px;
 }

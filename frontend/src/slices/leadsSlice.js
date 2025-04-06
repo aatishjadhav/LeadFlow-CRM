@@ -7,23 +7,17 @@ export const fetchLeads = createAsyncThunk(
   "leads/fetchLeads",
   async (filters) => {
     const response = await axios.get(`${BASE_URL}/leads`, { params: filters });
-    console.log("response from slice", response);
-
     return response.data;
   }
 );
 
 export const fetchComments = createAsyncThunk("leads/fetchComments", async (leadId) => {
   const response = await axios.get(`${BASE_URL}/leads/${leadId}/comments`);
-  console.log("response from slice", response);
-
   return response.data;
 });
 
 export const addComments = createAsyncThunk("leads/addComments", async ({leadId, author, commentText}) => {
   const response = await axios.post(`${BASE_URL}/leads/${leadId}/comments`, {author, commentText});
-  console.log("response from slice", response);
-
   return response.data;
 });
 
@@ -37,7 +31,6 @@ export const fetchPipelineData = createAsyncThunk(
 
 export const fetchClosedLeads = createAsyncThunk("leads/fetchClosedLeads", async () => {
   const response = await axios.get(`${BASE_URL}/report/last-week`);
-  console.log("closed", response);
   return response.data;
 })
 
@@ -45,8 +38,6 @@ export const addNewLead = createAsyncThunk(
   "leads/addNewlead",
   async (leadData) => {
     const response = await axios.post(`${BASE_URL}/leads`, leadData);
-    console.log("response from slice", response);
-
     return response.data;
   }
 );
@@ -55,8 +46,6 @@ export const updateLead = createAsyncThunk(
   "leads/updateLead",
   async ({ leadId, leadData }) => {
     const response = await axios.put(`${BASE_URL}/leads/${leadId}`, leadData);
-    console.log("response from slice", response);
-
     return response.data;
   }
 );
@@ -65,8 +54,6 @@ export const deleteLead = createAsyncThunk(
   "leads/deleteLead",
   async (leadId) => {
     const response = await axios.delete(`${BASE_URL}/leads/${leadId}`);
-    console.log("response from slice", response);
-
     return leadId;
   }
 );
@@ -119,7 +106,7 @@ const leadsSlice = createSlice({
     builder.addCase(updateLead.fulfilled, (state, action) => {
       state.status = "success";
       state.leads = state.leads.map((lead) =>
-        lead._id === action.payload.id ? action.payload : lead
+        lead._id === action.payload._id ? action.payload : lead
       );
     });
     builder.addCase(deleteLead.fulfilled, (state, action) => {

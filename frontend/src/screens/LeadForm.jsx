@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { addNewLead, updateLead } from "../slices/leadsSlice";
+import { addNewLead, fetchLeads, updateLead } from "../slices/leadsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { fetchAgents } from "../slices/agentsSlice";
+import { toast } from "react-toastify";
 
 const LeadForm = () => {
   const dispatch = useDispatch();
@@ -12,7 +14,6 @@ const LeadForm = () => {
   const { agents } = useSelector((state) => state.agents);
 
   const leadToEdit = location.state?.getLead || null;
-  console.log("lead to edit", leadToEdit);
 
   const [name, setName] = useState("");
   const [source, setSource] = useState("Website");
@@ -23,10 +24,14 @@ const LeadForm = () => {
   const [tags, setTags] = useState("");
 
   useEffect(() => {
+    dispatch(fetchAgents());
+  }, [dispatch])
+
+  useEffect(() => {
     if (leadToEdit) {
       setName(leadToEdit.name);
       setSource(leadToEdit.source);
-      setSalesAgent(leadToEdit.salesAgent.name);
+      setSalesAgent(leadToEdit.salesAgent._id);
       setStatus(leadToEdit.status);
       setTags(leadToEdit.tags);
       setTimeToClose(leadToEdit.timeToClose);
@@ -34,23 +39,29 @@ const LeadForm = () => {
     }
   }, [leadToEdit]);
 
-  const handleAdd = (e) => {
+  const handleAdd =  async (e) => {
     e.preventDefault();
     const leadData = {
       name,
       source,
       salesAgent,
       status,
-      tags,
+      tags:
+        typeof tags === "string" ? tags.split(",").map((t) => t.trim()) : tags,
       timeToClose,
       priority,
     };
+    
     if (leadToEdit) {
       const leadId = leadToEdit._id;
       dispatch(updateLead({ leadId, leadData }));
+      toast.success("Lead updated successfully");
     } else {
       dispatch(addNewLead(leadData));
+      toast.success("New Lead added");
+      
     }
+    await dispatch(fetchLeads());
     navigate("/");
   };
   return (
@@ -104,7 +115,7 @@ const LeadForm = () => {
               ) : null
             )} */}
           {agents?.map((agent) => (
-            <option value={agent.name}>{agent.name}</option>
+            <option key={agent._id} value={agent._id}>{agent.name}</option>
           ))}
         </select>
         <br />

@@ -3,7 +3,7 @@ import "./agents.css";
 import { useDispatch } from "react-redux";
 import { addNewAgent } from "../slices/agentsSlice";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 
 const AgentForm = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ const AgentForm = () => {
     e.preventDefault();
     const newAgent = { name, email };
     dispatch(addNewAgent(newAgent));
+    toast.success("New Sales agent added.");
     navigate("/agents");
   };
   return (

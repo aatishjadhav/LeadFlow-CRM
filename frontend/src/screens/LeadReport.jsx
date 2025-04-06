@@ -3,8 +3,6 @@
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchPipelineData } from "../slices/leadsSlice";
 
-
-
 // const COLORS = ["#0088FE", "#00C49F"]; // Blue for pipeline, Green for closed leads
 
 // const LeadReport = () => {
@@ -110,25 +108,20 @@
 
 // export default LeadReport;
 
-
-import ClosedLeadsBySalesAgent from "./ClosedLeadsBySalesAgent"
-import LastWeekClosed from "./LastWeekClosed"
-import LeadPieChart from "./LeadPieChart"
-import LeadsPipeline from "./LeadsPipeline"
-
+import ClosedLeadsBySalesAgent from "./ClosedLeadsBySalesAgent";
+import LastWeekClosed from "./LastWeekClosed";
+import LeadPieChart from "./LeadPieChart";
+import LeadsPipeline from "./LeadsPipeline";
 
 const LeadReport = () => {
-    return (
-        <div className="report">
-           
-            <LeadPieChart />
-            <LastWeekClosed/>
-            <ClosedLeadsBySalesAgent />
-            <LeadsPipeline/>
-        </div>
-    )
-}
+  return (
+    <div className="report">
+      <LeadPieChart />
+      <LastWeekClosed />
+      <ClosedLeadsBySalesAgent />
+      <LeadsPipeline />
+    </div>
+  );
+};
 
-export default LeadReport
-
-
+export default LeadReport;

@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 import { useSearchParams } from "react-router-dom";
 import { fetchLeads } from "../slices/leadsSlice";
 import { fetchAgents } from "../slices/agentsSlice";
@@ -109,15 +111,30 @@ const Leads = () => {
         </select>
       </div>
 
-      {/* Leads List */}
-      <ul>
-        {leads.map((lead, index) => (
-          <li key={lead._id}>
-            [{index + 1}] - [{lead.status}] - [
-            {lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
-          </li>
-        ))}
-      </ul>
+      {status === "loading" ? (
+        <RotatingLines
+          visible={true}
+          height="96"
+          width="96"
+          color="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      ) : (
+        <div className="list">
+          {leads.map((lead, index) => (
+            <p key={lead._id} className="leads">
+              <Link className="nav-link leads" to={`/leads/${lead._id}`}>
+                Lead: [{index + 1}] - [{lead.name}] - [{lead.status}] - [
+                {lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
+              </Link>
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

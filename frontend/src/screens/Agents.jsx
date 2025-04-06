@@ -4,11 +4,11 @@ import { fetchAgents } from "../slices/agentsSlice";
 import "./agents.css";
 import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const Agents = () => {
   const dispatch = useDispatch();
   const { agents, status, error } = useSelector((state) => state.agents);
-  console.log("agents from screen", agents);
 
   useEffect(() => {
     dispatch(fetchAgents());

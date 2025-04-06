@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { addComments, fetchComments } from "../slices/leadsSlice";
 import { fetchAgents } from "../slices/agentsSlice";
+import { toast } from "react-toastify";
 
 const LeadDetails = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ const LeadDetails = () => {
   const [commentText, setCommentText] = useState("");
 
   const getLead = leads.find((lead) => lead._id == leadId);
-  console.log("single", getLead);
 
   useEffect(() => {
     dispatch(fetchComments(leadId));
@@ -33,6 +33,7 @@ const LeadDetails = () => {
       () => {
         setCommentText("");
         setSelectedAgent("");
+        toast.success("added new comment.")
         dispatch(fetchComments(leadId));
       }
     );
