@@ -20,13 +20,13 @@ export const fetchComments = createAsyncThunk("leads/fetchComments", async (lead
   return response.data;
 });
 
-// export const fetchLeadsInPipeline = createAsyncThunk("leads/fetchLeadsInPipeline", async () => {
-//   const response = await axios.get(`${BASE_URL}/report/pipeline`);
-//   console.log("pipeline", response);
-//   return response.data;
-// });
+export const addComments = createAsyncThunk("leads/addComments", async ({leadId, author, commentText}) => {
+  const response = await axios.post(`${BASE_URL}/leads/${leadId}/comments`, {author, commentText});
+  console.log("response from slice", response);
 
-// Fetch leads in the pipeline
+  return response.data;
+});
+
 export const fetchPipelineData = createAsyncThunk(
   "leads/fetchPipelineData",
   async () => {
@@ -99,6 +99,10 @@ const leadsSlice = createSlice({
     builder.addCase(fetchComments.fulfilled, (state, action) => {
       state.status = "success";
       state.comments = action.payload;
+    });
+    builder.addCase(addComments.fulfilled, (state, action) => {
+      state.status = "success";
+      state.comments.push(action.payload);
     });
     builder.addCase(fetchPipelineData.fulfilled, (state, action) => {
       state.totalLeadsInPipeline = action.payload.totalLeadsInPipeline;
