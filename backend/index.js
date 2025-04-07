@@ -17,8 +17,8 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/leads", async (req, res) => {
    
-    const allowedStatuses = ["New", "Contacted", "Qualified", "Proposal Sent", "Closed"];
-    const allowedSources = ["Website", "Referral", "Social Media", "Advertisement", "Cold Call", "Email"];
+    const allowedStatuses = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Closed'];
+    const allowedSources = ['Website', 'Referral', 'Cold Call', 'Advertisement', 'Email', 'Other'];
 
   try {
     const { salesAgent, status, tags, source } = req.query;
@@ -106,7 +106,7 @@ app.put("/leads/:id", async (req, res) => {
 
         // Allowed status and source values
         const validStatuses = ["New", "Contacted", "Qualified", "Proposal Sent", "Closed"];
-        const validSources = ["Website", "Referral", "Social Media", "Advertisement"];
+        const validSources = ['Website', 'Referral', 'Cold Call', 'Advertisement', 'Email', 'Other'];
 
         // Validate status
         if (dataToUpdate.status && !validStatuses.includes(dataToUpdate.status)) {
