@@ -19,7 +19,7 @@
 // export default Sidebar;
 
 import { useLocation } from "react-router-dom";
-import "./Sidebar.css";
+import "./sidebar.css";
 import { Link } from "react-router-dom";
 import { MdMenu, MdClose } from "react-icons/md";
 
