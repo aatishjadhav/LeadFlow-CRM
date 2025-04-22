@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { fetchLeads } from "../slices/leadsSlice";
 import { fetchAgents } from "../slices/agentsSlice";
 import "./leads.css";
+import Sidebar from "../components/Sidebar";
 
 const Leads = () => {
   const dispatch = useDispatch();
@@ -35,223 +36,180 @@ const Leads = () => {
     setSearchParams(newParams);
   };
 
+  // const updateFilters = (key, value) => {
+  //   const params = new URLSearchParams(searchParams);
+
+  // Add the filter if a value is provided, otherwise remove it
+  //   if (value) {
+  //     params.set(key, value);
+  //   } else {
+  //     params.delete(key);
+  //   }
+
+  //   setSearchParams(params);
+  // };
+
   return (
-    <div>
-      <h1 className="heading">Leads Overview</h1>
-
-      <div className="filters">
-        <h2>Filters:</h2>
-
-        {/* Status Filter */}
-        <label>Status:</label>
-        {/* <select value={filters.status} onChange={(e) => updateFilters("status", e.target.value)}>
-          <option value="">All</option>
-          {["New", "Contacted", "Qualified", "Proposal Sent", "Closed"].map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select> */}
-
-        {/* This is dynamic dropdown */}
-        <select
-          value={filters.status}
-          onChange={(e) => updateFilters("status", e.target.value)}
+    <div className="container-fluid">
+      {/* Sidebar */}
+      <div className="row">
+        <div
+          className="offcanvas offcanvas-start"
+          tabIndex="-1"
+          id="mobileSidebar"
+          aria-labelledby="mobileSidebarLabel"
+          style={{ width: "250px" }}
         >
-          <option value="">All</option>
-          {[...new Set(leads.map((lead) => lead.status))].map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-
-        <br />
-        <br />
-
-        {/* Sales Agent Filter */}
-        <label>Sales Agent:</label>
-        <select
-          value={filters.salesAgent}
-          onChange={(e) => updateFilters("salesAgent", e.target.value)}
-        >
-          <option value="">All</option>
-          {agents?.map((agent) => (
-            <option key={agent._id} value={agent._id}>
-              {agent.name}
-            </option>
-          ))}
-        </select>
-
-        <br />
-        <br />
-
-        {/* Source Filter */}
-        <label>Source:</label>
-        {/* <select value={filters.source} onChange={(e) => updateFilters("source", e.target.value)}>
-          <option value="">All</option>
-          {["Website", "Referral", "Social Media", "Cold Call", "Email", "Advertisement"].map((source) => (
-            <option key={source} value={source}>
-              {source}
-            </option>
-          ))}
-        </select> */}
-
-        {/* This is dynamic dropdown */}
-        <select
-          value={filters.source}
-          onChange={(e) => updateFilters("source", e.target.value)}
-        >
-          <option value="">All</option>
-          {[...new Set(leads.map((lead) => lead.source))].map((source) => (
-            <option key={source} value={source}>
-              {source}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {status === "loading" ? (
-        <RotatingLines
-          visible={true}
-          height="96"
-          width="96"
-          color="grey"
-          strokeWidth="5"
-          animationDuration="0.75"
-          ariaLabel="rotating-lines-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-      ) : (
-        <div className="list">
-          {leads.map((lead, index) => (
-            <p key={lead._id} className="leads">
-              <Link className="nav-link leads" to={`/leads/${lead._id}`}>
-                Lead: [{index + 1}] - [{lead.name}] - [{lead.status}] - [
-                {lead.salesAgent?.name || "No Agent"}] - [{lead.source}]
-              </Link>
-            </p>
-          ))}
+          <div className="offcanvas-header">
+            <button
+              type="button"
+              className="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body p-0">
+            <Sidebar />
+          </div>
         </div>
-      )}
+
+        <div
+          className="col-12 col-md-3 col-lg-2 d-none d-md-block p-0"
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflowY: "auto",
+          }}
+        >
+          <Sidebar />
+        </div>
+        <div className="col-12 col-md-9 col-lg-10 p-4">
+          <button
+            className="btn btn-outline-primary d-md-none mb-3"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar"
+          >
+            ☰ Menu
+          </button>
+          <h1 className="text-center">Leads Overview</h1>
+
+          <div className="filters">
+            <h2>Filters:</h2>
+
+            {/* This is dynamic dropdown */}
+            <div className="row mb-3">
+              {/* Status Filter */}
+              <div className="col-md-4">
+                <label>Status:</label>
+                <select
+                  value={filters.status}
+                  onChange={(e) => updateFilters("status", e.target.value)}
+                  className="form-control"
+                >
+                  <option value="">All</option>
+                  {[...new Set(leads.map((lead) => lead.status))].map(
+                    (status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+
+              {/* Sales Agent Filter */}
+              <div className="col-md-4">
+                <label>Sales Agent:</label>
+                <select
+                  value={filters.salesAgent}
+                  onChange={(e) => updateFilters("salesAgent", e.target.value)}
+                  className="form-control"
+                >
+                  <option value="">All</option>
+                  {agents?.map((agent) => (
+                    <option key={agent._id} value={agent._id}>
+                      {agent.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Source Filter */}
+              <div className="col-md-4">
+                <label>Source:</label>
+                <select
+                  value={filters.source}
+                  onChange={(e) => updateFilters("source", e.target.value)}
+                  className="form-control"
+                >
+                  <option value="">All</option>
+                  {[...new Set(leads.map((lead) => lead.source))].map(
+                    (source) => (
+                      <option key={source} value={source}>
+                        {source}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {status === "loading" ? (
+            <div className="d-flex justify-content-center align-items-center vh-100">
+              <RotatingLines
+                visible={true}
+                height="96"
+                width="96"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass="rotating-lines"
+              />
+            </div>
+          ) : (
+            <div className="container mt-4">
+              <div className="row">
+                {leads.map((lead, index) => (
+                  <div key={lead._id} className="col-md-6 col-lg-4 mb-4">
+                    <div className="card shadow-sm border-light rounded">
+                      <div className="card-body">
+                        <h5 className="card-title text-dark">
+                          Lead #{index + 1} - {lead.name}
+                        </h5>
+                        <p className="card-text">
+                          <strong>Status:</strong> {lead.status || "No Status"}
+                        </p>
+                        <p className="card-text">
+                          <strong>Sales Agent:</strong>{" "}
+                          {lead.salesAgent?.name || "No Agent"}
+                        </p>
+                        <p className="card-text">
+                          <strong>Source:</strong> {lead.source || "No Source"}
+                        </p>
+                        <Link
+                          to={`/leads/${lead._id}`}
+                          className="btn btn-primary btn-sm mt-2"
+                        >
+                          View Details
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Leads;
 
-// import { useDispatch, useSelector } from "react-redux";
-// import { useEffect, useState } from "react";
-// import "./leads.css";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import { fetchAgents } from "../slices/agentsSlice";
-
-// const Leads = () => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   const { leads } = useSelector((state) => state.leads);
-//   const { agents } = useSelector((state) => state.agents);
-
-//   const query = new URLSearchParams(location.search);
-
-//   const [statusFilter, setStatusFilter] = useState("");
-//   const [salesAgentFilter, setSalesAgentFilter] = useState("");
-//   const [sortByPriority, setSortByPriority] = useState("");
-//   const [sortByTimeToClose, setSortByTimeToClose] = useState("");
-
-//   // 2. Update query when filters change
-//   useEffect(() => {
-//     const params = new URLSearchParams();
-//     if (statusFilter) params.set("status", statusFilter);
-//     if (salesAgentFilter) params.set("salesAgent", salesAgentFilter);
-//     if (sortByPriority) params.set("sortByPriority", sortByPriority);
-//     if (sortByTimeToClose) params.set("sortByTimeToClose", sortByTimeToClose);
-//     navigate(`?${params.toString()}`, { replace: true });
-//   }, [statusFilter, salesAgentFilter, sortByPriority, sortByTimeToClose]);
-
-//   useEffect(() => {
-//     dispatch(fetchAgents());
-//   }, [dispatch]);
-
-//   const filteredLeads = leads
-//     .filter((lead) => {
-//       return (
-//         (!statusFilter || lead.status === statusFilter) &&
-//         (!salesAgentFilter || lead.salesAgent?.name === salesAgentFilter)
-//       );
-//     })
-//     .sort((a, b) => {
-//       const priorityOrder = { High: 3, Medium: 2, Low: 1 };
-
-//       if (sortByPriority) {
-//         const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-//         if (sortByPriority === "High" && priorityDiff !== 0) return priorityDiff;
-//         else if (sortByPriority === "Low" && priorityDiff !== 0) return -priorityDiff;
-//       }
-
-//       if (sortByTimeToClose) {
-//         return sortByTimeToClose === "asc"
-//           ? a.timeToClose - b.timeToClose
-//           : b.timeToClose - a.timeToClose;
-//       }
-
-//       return 0;
-//     });
-
-//   const handleAddLead = () => {
-//     navigate("/add-lead");
-//   };
-
-//   return (
-//     <div>
-//       <h1 className="heading">Leads Overview</h1>
-//       <ul>
-//         {filteredLeads.map((lead, index) => (
-//           <li key={lead._id}>
-//             Lead: [{index + 1}] - [{lead.status}] - [{lead.salesAgent.name}] [{lead.priority}] [{lead.timeToClose}]
-//           </li>
-//         ))}
-//       </ul>
-//       <div className="filters">
-//         <h2>Filters:</h2>
-//         <label>Status:</label>
-//         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-//           <option value="">All</option>
-//           {[...new Set(leads.map((lead) => lead.status))].map((status) => (
-//             <option key={status} value={status}>{status}</option>
-//           ))}
-//         </select>
-//         <br /><br />
-//         <label>Sales Agent:</label>
-//         <select value={salesAgentFilter} onChange={(e) => setSalesAgentFilter(e.target.value)}>
-//           <option value="">All</option>
-//           {agents?.map((agent) => (
-//             <option key={agent._id} value={agent.name}>{agent.name}</option>
-//           ))}
-//         </select>
-//         <br /><br />
-//         <h2>Sort By:</h2>
-//         <label>Priority:</label>
-//         <select value={sortByPriority} onChange={(e) => setSortByPriority(e.target.value)}>
-//           <option value="">None</option>
-//           <option value="High">High</option>
-//           <option value="Medium">Medium</option>
-//           <option value="Low">Low</option>
-//         </select>
-//         <br /><br />
-//         <label>Time to Close:</label>
-//         <select value={sortByTimeToClose} onChange={(e) => setSortByTimeToClose(e.target.value)}>
-//           <option value="">None</option>
-//           <option value="asc">Ascending</option>
-//           <option value="desc">Descending</option>
-//         </select>
-//       </div>
-//       <button className="lead-btn" onClick={handleAddLead}>Add New Lead</button>
-//     </div>
-//   );
-// };
-
-// export default Leads;
