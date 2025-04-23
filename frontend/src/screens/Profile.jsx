@@ -7,7 +7,7 @@ import Sidebar from "../components/Sidebar";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
+  const { user, status } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -62,11 +62,24 @@ const Profile = () => {
           </button>
           <div className="py-3">
             <h4 className="fw-bold">My Profile</h4>
-            <p>Name: {user?.name}</p>
-            <p>Email: {user?.email}</p>
-            <button onClick={handleLogout} className="btn btn-danger">
-              Logout
-            </button>
+            {status === "loading" ? (
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ height: "70vh" }}
+              >
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                <p>Name: {user?.name}</p>
+                <p>Email: {user?.email}</p>
+                <button onClick={handleLogout} className="btn btn-danger">
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
