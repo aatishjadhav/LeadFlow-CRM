@@ -180,9 +180,10 @@ const Home = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-12 col-md-9 col-lg-10 p-4">
-        <button
-            className="btn btn-outline-primary d-md-none mb-3"
+        <div className="col-12 col-md-9 col-lg-10 p-4 bg-light min-vh-100">
+          {/* Mobile Toggle */}
+          <button
+            className="btn btn-outline-primary d-md-none mb-4"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#mobileSidebar"
@@ -190,13 +191,19 @@ const Home = () => {
           >
             ☰ Menu
           </button>
+
+          {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="mb-0">Leads Dashboard</h2>
-            <button className="btn btn-primary" onClick={handleAddLead}>
+            <h2 className="fw-bold text-primary mb-0">Leads Dashboard</h2>
+            <button
+              className="btn btn-success shadow-sm"
+              onClick={handleAddLead}
+            >
               + Add New Lead
             </button>
           </div>
 
+          {/* Loader */}
           {status === "loading" ? (
             <div
               className="d-flex justify-content-center align-items-center"
@@ -206,7 +213,7 @@ const Home = () => {
                 visible={true}
                 height="96"
                 width="96"
-                color="grey"
+                color="#0d6efd"
                 strokeWidth="5"
                 animationDuration="0.75"
                 ariaLabel="rotating-lines-loading"
@@ -215,38 +222,47 @@ const Home = () => {
           ) : (
             <ul className="list-group mb-4 shadow-sm">
               {filteredLeads.map((lead) => (
-                <li className="list-group-item" key={lead._id}>
+                <li
+                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  key={lead._id}
+                >
                   <Link
-                    className="text-decoration-none text-dark fw-medium"
+                    className="text-decoration-none text-dark fw-semibold"
                     to={`/leads/${lead._id}`}
                   >
                     {lead.name}
                   </Link>
+                  <span className="badge bg-info text-dark">{lead.status}</span>
                 </li>
               ))}
             </ul>
           )}
 
+          {/* Error Alert */}
           {error && <div className="alert alert-danger">{error}</div>}
 
+          {/* Lead Status Overview */}
           <section className="mb-5">
-            <h4 className="mb-3">Lead Status Overview</h4>
+            <h4 className="fw-semibold text-secondary mb-3">
+              Lead Status Overview
+            </h4>
             <div className="d-flex gap-4 flex-wrap">
-              <div className="badge bg-primary p-3 fs-6">
+              <span className="badge rounded-pill bg-primary p-3 fs-6 shadow-sm">
                 New: {leadCounts.new}
-              </div>
-              <div className="badge bg-secondary p-3 fs-6">
+              </span>
+              <span className="badge rounded-pill bg-warning text-dark p-3 fs-6 shadow-sm">
                 Contacted: {leadCounts.contacted}
-              </div>
-              <div className="badge bg-success p-3 fs-6">
+              </span>
+              <span className="badge rounded-pill bg-success p-3 fs-6 shadow-sm">
                 Qualified: {leadCounts.qualified}
-              </div>
+              </span>
             </div>
           </section>
 
+          {/* Quick Filters */}
           <section className="mb-4">
-            <h4 className="mb-3">Quick Filters</h4>
-            <div className="d-flex gap-3">
+            <h4 className="fw-semibold text-secondary mb-3">Quick Filters</h4>
+            <div className="d-flex gap-4 flex-wrap">
               <div className="form-check">
                 <input
                   className="form-check-input"

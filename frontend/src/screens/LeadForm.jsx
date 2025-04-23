@@ -4,6 +4,7 @@ import { addNewLead, fetchLeads, updateLead } from "../slices/leadsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAgents } from "../slices/agentsSlice";
 import { toast } from "react-toastify";
+import Sidebar from "../components/Sidebar";
 
 const LeadForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const LeadForm = () => {
 
   useEffect(() => {
     dispatch(fetchAgents());
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     if (leadToEdit) {
@@ -39,7 +40,7 @@ const LeadForm = () => {
     }
   }, [leadToEdit]);
 
-  const handleAdd =  async (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     const leadData = {
       name,
@@ -51,7 +52,7 @@ const LeadForm = () => {
       timeToClose,
       priority,
     };
-    
+
     if (leadToEdit) {
       const leadId = leadToEdit._id;
       dispatch(updateLead({ leadId, leadData }));
@@ -59,124 +60,163 @@ const LeadForm = () => {
     } else {
       dispatch(addNewLead(leadData));
       toast.success("New Lead added");
-      
     }
     await dispatch(fetchLeads());
     navigate("/");
   };
   return (
-    <div>
-      <h1>{leadToEdit ? "Update Lead" : "Add New Lead"}</h1>
-      <form action="" onSubmit={handleAdd}>
-        <label htmlFor="">Lead Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <br />
-        <br />
-
-        <label htmlFor="">Lead Source:</label>
-        <select
-          name=""
-          id=""
-          value={source}
-          onChange={(e) => setSource(e.target.value)}
+    <div className="container-fluid">
+      {/* Sidebar */}
+      <div className="row">
+        <div
+          className="offcanvas offcanvas-start"
+          tabIndex="-1"
+          id="mobileSidebar"
+          aria-labelledby="mobileSidebarLabel"
+          style={{ width: "250px" }}
         >
-          <option value="Website">Website</option>
-          <option value="Referral">Referral</option>
-          <option value="Cold Call">Cold Call</option>
-          <option value="Advertisement">Advertisement</option>
-          <option value="Email">Email</option>
-          <option value="Other">Other</option>
-        </select>
-        <br />
-        <br />
+          <div className="offcanvas-header">
+            <button
+              type="button"
+              className="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body p-0">
+            <Sidebar />
+          </div>
+        </div>
 
-        <label htmlFor="">Sales Agent:</label>
-        <select
-          value={salesAgent}
-          onChange={(e) => setSalesAgent(e.target.value)}
+        <div
+          className="col-12 col-md-3 col-lg-2 d-none d-md-block p-0"
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflowY: "auto",
+          }}
         >
-          {/* {leads
-            .filter(
-              (lead, index, self) =>
-                index ===
-                self.findIndex(
-                  (t) => t.salesAgent?._id === lead.salesAgent?._id
-                )
-            ) 
-            .map((lead) =>
-              lead.salesAgent ? (
-                <option key={lead.salesAgent._id} value={lead.salesAgent._id}>
-                  {lead.salesAgent.name}
-                </option>
-              ) : null
-            )} */}
-          {agents?.map((agent) => (
-            <option key={agent._id} value={agent._id}>{agent.name}</option>
-          ))}
-        </select>
-        <br />
-        <br />
+          <Sidebar />
+        </div>
+        <div className="col-12 col-md-9 col-lg-10 p-4">
+          <button
+            className="btn btn-outline-primary d-md-none mb-3"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar"
+          >
+            ☰ Menu
+          </button>
+          <h1>{leadToEdit ? "Update Lead" : "Add New Lead"}</h1>
+          <form
+            onSubmit={handleAdd}
+            className="container mt-4 p-4 border rounded shadow bg-light"
+          >
+            <div className="mb-3">
+              <label className="form-label">Lead Name:</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-control"
+              />
+            </div>
 
-        <label htmlFor="">Lead Status:</label>
-        <select
-          name=""
-          id=""
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="New">New</option>
-          <option value="Contacted">Contacted</option>
-          <option value="Proposal Sent">Proposal Sent</option>
-          <option value="Closed">Closed</option>
-          <option value="Qualified">Qualified</option>
-        </select>
-        <br />
-        <br />
+            <div className="mb-3">
+              <label className="form-label">Lead Source:</label>
+              <select
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+                className="form-select"
+              >
+                <option value="Website">Website</option>
+                <option value="Referral">Referral</option>
+                <option value="Cold Call">Cold Call</option>
+                <option value="Advertisement">Advertisement</option>
+                <option value="Email">Email</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-        <label htmlFor="">Priority:</label>
-        <select
-          name=""
-          id=""
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-        >
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-        <br />
-        <br />
+            <div className="mb-3">
+              <label className="form-label">Sales Agent:</label>
+              <select
+                value={salesAgent}
+                onChange={(e) => setSalesAgent(e.target.value)}
+                className="form-select"
+              >
+                {agents?.map((agent) => (
+                  <option key={agent._id} value={agent._id}>
+                    {agent.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <label htmlFor="">Time To Close:</label>
-        <input
-          type="number"
-          placeholder="Number of Days"
-          value={timeToClose}
-          onChange={(e) => setTimeToClose(e.target.value)}
-        />
-        <br />
-        <br />
+            <div className="mb-3">
+              <label className="form-label">Lead Status:</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="form-select"
+              >
+                <option value="New">New</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Proposal Sent">Proposal Sent</option>
+                <option value="Closed">Closed</option>
+                <option value="Qualified">Qualified</option>
+              </select>
+            </div>
 
-        <label htmlFor="">Tags:</label>
-        <select value={tags} onChange={(e) => setTags(e.target.value)}>
-          {leads.map((lead) =>
-            lead.tags && Array.isArray(lead.tags) ? (
-              <option key={lead._id} value={lead.tags.join(", ")}>
-                {lead.tags.join(", ")}
-              </option>
-            ) : null
-          )}
-        </select>
+            <div className="mb-3">
+              <label className="form-label">Priority:</label>
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                className="form-select"
+              >
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
 
-        <br />
-        <br />
+            <div className="mb-3">
+              <label className="form-label">Time To Close (days):</label>
+              <input
+                type="number"
+                placeholder="Number of Days"
+                value={timeToClose}
+                onChange={(e) => setTimeToClose(e.target.value)}
+                className="form-control"
+              />
+            </div>
 
-        <button className="leads-btn">{leadToEdit ? "Update" : "Add"}</button>
-      </form>
+            <div className="mb-3">
+              <label className="form-label">Tags:</label>
+              <select
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="form-select"
+              >
+                {leads.map((lead) =>
+                  lead.tags && Array.isArray(lead.tags) ? (
+                    <option key={lead._id} value={lead.tags.join(", ")}>
+                      {lead.tags.join(", ")}
+                    </option>
+                  ) : null
+                )}
+              </select>
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              {leadToEdit ? "Update Lead" : "+ Add Lead"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

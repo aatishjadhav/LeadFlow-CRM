@@ -94,7 +94,7 @@ const Leads = () => {
           >
             ☰ Menu
           </button>
-          <h1 className="text-center">Leads Overview</h1>
+          <h1 className="text-center text-primary fw-bold">Leads Overview</h1>
 
           <div className="filters">
             <h2>Filters:</h2>
