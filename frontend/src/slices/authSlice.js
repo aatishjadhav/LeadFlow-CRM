@@ -2,30 +2,70 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 const BASE_URL = "https://anvaya-backend-zeta.vercel.app";
 
+// export const loginUser = createAsyncThunk(
+//     "login/loginUser",
+//     async (userData) => {
+//       const response = await axios.post(`${BASE_URL}/login`, userData, {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       });
+  
+//       const { token, user } = response.data;
+//       localStorage.setItem("token", token);
+//       localStorage.setItem("users", JSON.stringify(user));
+  
+//       return { token, user };
+//     }
+//   );
+  
+//   export const registerUser = createAsyncThunk(
+//     "register/registerUser",
+//     async (userData) => {
+//       const response = await axios.post(`${BASE_URL}/signup`, userData);
+//       return response.data.user;
+//     }
+// );
+
 export const loginUser = createAsyncThunk(
-    "login/loginUser",
-    async (userData) => {
+  "login/loginUser",
+  async (userData, thunkAPI) => {
+    try {
       const response = await axios.post(`${BASE_URL}/login`, userData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("users", JSON.stringify(user));
-  
+
       return { token, user };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || "Login failed"
+      );
     }
-  );
-  
-  export const registerUser = createAsyncThunk(
-    "register/registerUser",
-    async (userData) => {
+  }
+);
+
+
+export const registerUser = createAsyncThunk(
+  "register/registerUser",
+  async (userData, thunkAPI) => {
+    try {
       const response = await axios.post(`${BASE_URL}/signup`, userData);
       return response.data.user;
+    } catch (err) {
+      // Return the server error message (if available) to the component
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || "Registration failed"
+      );
     }
+  }
 );
+
   
 const initialState = {
     user: JSON.parse(localStorage.getItem("users")) || null,

@@ -12,11 +12,15 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(registerUser({ name, email, password }));
-    toast.success("Sign Up Successfull.");
-    navigate("/");
+    try {
+      await dispatch(registerUser({ name, email, password })).unwrap();
+      toast.success("Sign Up Successful.");
+      navigate("/");
+    } catch (err) {
+      toast.error(err); 
+    }
   };
 
   return (
