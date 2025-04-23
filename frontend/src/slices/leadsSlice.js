@@ -6,38 +6,68 @@ const BASE_URL = "https://anvaya-backend-zeta.vercel.app";
 export const fetchLeads = createAsyncThunk(
   "leads/fetchLeads",
   async (filters) => {
-    const response = await axios.get(`${BASE_URL}/leads`, { params: filters });
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${BASE_URL}/leads`, { params: filters,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const fetchComments = createAsyncThunk("leads/fetchComments", async (leadId) => {
-  const response = await axios.get(`${BASE_URL}/leads/${leadId}/comments`);
+  const token = localStorage.getItem("token");
+  const response = await axios.get(`${BASE_URL}/leads/${leadId}/comments`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 });
 
-export const addComments = createAsyncThunk("leads/addComments", async ({leadId, author, commentText}) => {
-  const response = await axios.post(`${BASE_URL}/leads/${leadId}/comments`, {author, commentText});
+export const addComments = createAsyncThunk("leads/addComments", async ({ leadId, author, commentText }) => {
+  const token = localStorage.getItem("token");
+  const response = await axios.post(`${BASE_URL}/leads/${leadId}/comments`, {author, commentText}, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 });
 
 export const fetchPipelineData = createAsyncThunk(
   "leads/fetchPipelineData",
   async () => {
-    const response = await axios.get(`${BASE_URL}/report/pipeline`);
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${BASE_URL}/report/pipeline`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const fetchClosedLeads = createAsyncThunk("leads/fetchClosedLeads", async () => {
-  const response = await axios.get(`${BASE_URL}/report/last-week`);
+  const token = localStorage.getItem("token");
+  const response = await axios.get(`${BASE_URL}/report/last-week`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 })
 
 export const addNewLead = createAsyncThunk(
   "leads/addNewlead",
   async (leadData) => {
-    const response = await axios.post(`${BASE_URL}/leads`, leadData);
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${BASE_URL}/leads`, leadData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
@@ -45,7 +75,12 @@ export const addNewLead = createAsyncThunk(
 export const updateLead = createAsyncThunk(
   "leads/updateLead",
   async ({ leadId, leadData }) => {
-    const response = await axios.put(`${BASE_URL}/leads/${leadId}`, leadData);
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${BASE_URL}/leads/${leadId}`, leadData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
@@ -53,7 +88,12 @@ export const updateLead = createAsyncThunk(
 export const deleteLead = createAsyncThunk(
   "leads/deleteLead",
   async (leadId) => {
-    const response = await axios.delete(`${BASE_URL}/leads/${leadId}`);
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(`${BASE_URL}/leads/${leadId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return leadId;
   }
 );

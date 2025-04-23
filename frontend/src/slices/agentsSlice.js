@@ -4,14 +4,24 @@ import axios from "axios";
 const BASE_URL = "https://anvaya-backend-zeta.vercel.app";
 
 export const fetchAgents = createAsyncThunk("agents/fetchAgents", async () => {
-  const response = await axios.get(`${BASE_URL}/agents`);
+  const token = localStorage.getItem("token");
+  const response = await axios.get(`${BASE_URL}/agents`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 });
 
 export const addNewAgent = createAsyncThunk(
   "agents/addNewAgent",
   async (agent) => {
-    const response = await axios.post(`${BASE_URL}/agents`, agent);
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${BASE_URL}/agents`, agent, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );

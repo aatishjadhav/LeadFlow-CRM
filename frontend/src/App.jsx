@@ -12,6 +12,9 @@ import LeadReport from "./screens/LeadReport";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import Settings from "./screens/Settings";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
+import Profile from "./screens/Profile";
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
       <div className="">
         <Routes>
           <Route path="/dashboard" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/leads/:leadId" element={<LeadDetails />} />
@@ -27,7 +32,7 @@ function App() {
 
           <Route path="/agents/add-new" element={<AgentForm />} />
           <Route path="/report" element={<LeadReport />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<Profile />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </div>
