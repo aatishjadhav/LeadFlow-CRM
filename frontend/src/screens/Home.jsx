@@ -180,7 +180,7 @@ const Home = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-12 col-md-9 col-lg-10 p-4 bg-light min-vh-100">
+        <div className="col-12 col-md-9 col-lg-10 p-4 min-vh-100">
           {/* Mobile Toggle */}
           <button
             className="btn btn-outline-primary d-md-none mb-4"
