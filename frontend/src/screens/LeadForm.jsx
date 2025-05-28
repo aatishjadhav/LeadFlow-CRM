@@ -55,14 +55,14 @@ const LeadForm = () => {
 
     if (leadToEdit) {
       const leadId = leadToEdit._id;
-      dispatch(updateLead({ leadId, leadData }));
+      await dispatch(updateLead({ leadId, leadData }));
       toast.success("Lead updated successfully");
     } else {
-      dispatch(addNewLead(leadData));
+      await dispatch(addNewLead(leadData));
       toast.success("New Lead added");
     }
     await dispatch(fetchLeads());
-    navigate("/");
+    navigate("/dashboard");
   };
   return (
     <div className="container-fluid">
