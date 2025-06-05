@@ -81,7 +81,7 @@ const Sidebar = () => {
       className="p-3 vh-100 d-flex flex-column align-items-center"
       style={{ width: "230px", backgroundColor: "#f3f0ff" }}
     >
-      <h4 className="mb-4 text-info text-md">Anvaya</h4>
+      <h4 className="mb-4 text-info text-md">LeadFlow</h4>
       <ul className="nav flex-column py-3">
         <li className="nav-item">
           <Link to="/dashboard" className="nav-link text-secondary">
