@@ -36,21 +36,8 @@ const Leads = () => {
     setSearchParams(newParams);
   };
 
-  // const updateFilters = (key, value) => {
-  //   const params = new URLSearchParams(searchParams);
-
-  // Add the filter if a value is provided, otherwise remove it
-  //   if (value) {
-  //     params.set(key, value);
-  //   } else {
-  //     params.delete(key);
-  //   }
-
-  //   setSearchParams(params);
-  // };
-
   return (
-    <div className="container-fluid">
+    <div className="bg-light py-3 container-fluid">
       {/* Sidebar */}
       <div className="row">
         <div
@@ -78,7 +65,7 @@ const Leads = () => {
           style={{
             position: "sticky",
             top: 0,
-            height: "100vh",
+            minHeight: "100vh",
             overflowY: "auto",
           }}
         >
@@ -94,20 +81,27 @@ const Leads = () => {
           >
             ☰ Menu
           </button>
-          <h1 className="text-center text-primary fw-bold">Leads Overview</h1>
+          <h1 className="text-center text-dark fw-bold display-6 mb-4">
+            <i className="bi bi-person-lines-fill me-2 text-primary"></i>
+            Leads Overview
+          </h1>
 
-          <div className="filters">
-            <h2>Filters:</h2>
+          <div className="filters card border-0 shadow-sm rounded-4 p-4 mb-5">
+            <h5 className="mb-4 text-secondary fw-semibold">
+              <i className="bi bi-funnel-fill me-2 text-info"></i>
+              Filter Leads
+            </h5>
 
-            {/* This is dynamic dropdown */}
-            <div className="row mb-3">
+            <div className="row">
               {/* Status Filter */}
-              <div className="col-md-4">
-                <label>Status:</label>
+              <div className="col-md-4 mb-3">
+                <label className="form-label fw-semibold text-muted">
+                  Status
+                </label>
                 <select
                   value={filters.status}
                   onChange={(e) => updateFilters("status", e.target.value)}
-                  className="form-control"
+                  className="form-select shadow-sm rounded-pill"
                 >
                   <option value="">All</option>
                   {[...new Set(leads.map((lead) => lead.status))].map(
@@ -121,12 +115,14 @@ const Leads = () => {
               </div>
 
               {/* Sales Agent Filter */}
-              <div className="col-md-4">
-                <label>Sales Agent:</label>
+              <div className="col-md-4 mb-3">
+                <label className="form-label fw-semibold text-muted">
+                  Sales Agent
+                </label>
                 <select
                   value={filters.salesAgent}
                   onChange={(e) => updateFilters("salesAgent", e.target.value)}
-                  className="form-control"
+                  className="form-select shadow-sm rounded-pill"
                 >
                   <option value="">All</option>
                   {agents?.map((agent) => (
@@ -138,12 +134,14 @@ const Leads = () => {
               </div>
 
               {/* Source Filter */}
-              <div className="col-md-4">
-                <label>Source:</label>
+              <div className="col-md-4 mb-3">
+                <label className="form-label fw-semibold text-muted">
+                  Source
+                </label>
                 <select
                   value={filters.source}
                   onChange={(e) => updateFilters("source", e.target.value)}
-                  className="form-control"
+                  className="form-select shadow-sm rounded-pill"
                 >
                   <option value="">All</option>
                   {[...new Set(leads.map((lead) => lead.source))].map(
@@ -194,7 +192,7 @@ const Leads = () => {
                         </p>
                         <Link
                           to={`/leads/${lead._id}`}
-                          className="btn btn-primary btn-sm mt-2"
+                          className="btn btn-outline-secondary btn-sm mt-2"
                         >
                           View Details
                         </Link>
@@ -212,4 +210,3 @@ const Leads = () => {
 };
 
 export default Leads;
-

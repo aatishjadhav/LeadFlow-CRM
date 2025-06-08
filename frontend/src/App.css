@@ -1,33 +1,6 @@
-/* .main{
-  display: flex;
-  height: 100vh;
-  
-}
-.route{
-  flex: 1;
-  padding: 20px;
-} */
-
-.main {
-  display: flex;
-  height: calc(100vh - 60px); /* Subtract navbar height */
-  margin-top: 60px; /* Push below navbar */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Sidebar Styling */
-.side {
-  width: 220px; /* Ensure a fixed width */
-  position: fixed;
-  top: 70px;
-  left: 0;
-  overflow-y: auto; /* Allow scrolling if needed */
-}
-
-/* Main Content */
-.route {
-  flex: 1;
-  margin-left: 220px; /* Push content right of the sidebar */
-  padding: 20px;
-  overflow-y: auto; /* Make main content scrollable */
-  height: calc(100vh - 90px); /* Prevent going under navbar */
-}

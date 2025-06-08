@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { loginUser } from "../slices/authSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { user, status } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,9 +16,11 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
-      toast.success("Login successful!");
-      navigate("/settings");
+      const loggedInUser = await dispatch(
+        loginUser({ email, password })
+      ).unwrap();
+      toast.success(`Welcome, ${loggedInUser.user.name}!`);
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Invalid credentials!");
     }
@@ -29,9 +33,9 @@ const Login = () => {
     };
 
     try {
-      await dispatch(loginUser(guestCredentials)).unwrap();
-      toast.success("Logged in as Guest!");
-      navigate("/settings");
+      const guestUser = await dispatch(loginUser(guestCredentials)).unwrap();
+      toast.success(`Welcome ${guestUser.user.name}`);
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Guest login failed!");
     }
@@ -43,9 +47,7 @@ const Login = () => {
         className="card shadow-lg border-0 p-4 rounded-4"
         style={{ width: "400px", backgroundColor: "#ffffff" }}
       >
-        <h2 className="text-center mb-4 fw-bold" style={{ color: "#0d6efd" }}>
-          Welcome Back
-        </h2>
+        <h2 className="text-center mb-4 fw-bold text-info">Welcome Back</h2>
         <p className="text-center text-muted mb-4">Login to your account</p>
         <form onSubmit={handleLogin}>
           <div className="mb-3">
@@ -74,7 +76,7 @@ const Login = () => {
 
           <div className="d-grid">
             <button
-              className="btn btn-primary btn-lg rounded-3 shadow-sm"
+              className="btn btn-info btn-lg rounded-3 shadow-sm text-white"
               type="submit"
             >
               Login
@@ -95,8 +97,7 @@ const Login = () => {
             <span className="text-muted">New User? </span>
             <Link
               to="/register"
-              className="text-decoration-none fw-semibold"
-              style={{ color: "#0d6efd" }}
+              className="text-decoration-none fw-semibold text-info"
             >
               Create an account
             </Link>

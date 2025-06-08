@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../slices/authSlice";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, status } = useSelector((state) => state.auth);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,11 +16,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(registerUser({ name, email, password })).unwrap();
-      toast.success("Sign Up Successful.");
+      const signedInUser = await dispatch(
+        registerUser({ name, email, password })
+      ).unwrap();
+
+      toast.success(`Welcome, ${signedInUser.user.name}!`);
       navigate("/");
     } catch (err) {
-      toast.error(err); 
+      toast.error(err);
     }
   };
 
@@ -29,9 +33,7 @@ const Register = () => {
         className="card shadow-lg border-0 p-4 rounded-4"
         style={{ width: "400px", backgroundColor: "#ffffff" }}
       >
-        <h2 className="text-center mb-3 fw-bold" style={{ color: "#198754" }}>
-          Create Account
-        </h2>
+        <h2 className="text-center mb-3 fw-bold text-info">Create Account</h2>
         <p className="text-center text-muted mb-4">
           Join us by creating your account
         </p>
@@ -74,7 +76,7 @@ const Register = () => {
 
           <div className="d-grid">
             <button
-              className="btn btn-success btn-lg rounded-3 shadow-sm"
+              className="btn btn-info btn-lg rounded-3 shadow-sm text-white"
               type="submit"
             >
               Register
@@ -83,11 +85,7 @@ const Register = () => {
 
           <div className="text-center mt-4">
             <span className="text-muted">Already a user? </span>
-            <Link
-              to="/"
-              className="text-decoration-none fw-semibold"
-              style={{ color: "#198754" }}
-            >
+            <Link to="/" className="text-decoration-none fw-semibold text-info">
               Login here
             </Link>
           </div>

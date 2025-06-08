@@ -1,110 +1,3 @@
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchLeads, setFilterStatus } from "../slices/leadsSlice";
-// import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-// import { RotatingLines } from 'react-loader-spinner';
-// import "./home.css";
-
-// const Home = () => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-
-//   const { leads, filterStatus, status, error } = useSelector(
-//     (state) => state.leads
-//   );
-
-//   const leadCounts = leads.reduce(
-//     (acc, curr) => {
-//       acc.total += 1;
-//       if (curr.status === "New") acc.new += 1;
-//       if (curr.status === "Contacted") acc.contacted += 1;
-//       if (curr.status === "Qualified") acc.qualified += 1;
-//       return acc;
-//     },
-//     { total: 0, new: 0, contacted: 0, qualified: 0 }
-//   );
-
-//   const filteredLeads = filterStatus
-//     ? leads.filter((lead) => lead.status === filterStatus)
-//     : leads;
-
-//   const handleAddLead = () => {
-//     navigate("/add-lead");
-//   };
-
-//   useEffect(() => {
-//     dispatch(fetchLeads());
-//   }, [dispatch]);
-//   return (
-//     <>
-//       {/* <h1 className="heading">Anvaya CRM Dashboard</h1> */}
-//       <div className="home">
-//         <div className="leads">
-//           <h2>Leads:</h2>
-//         </div>
-//         <div className="">
-//           {status === "loading" ? (
-//             <div className="">
-//             <RotatingLines
-//             visible={true}
-//             height="96"
-//             width="96"
-//             color="grey"
-//             strokeWidth="5"
-//             animationDuration="0.75"
-//             ariaLabel="rotating-lines-loading"
-//             wrapperStyle={{}}
-//             wrapperClass=""
-//               />
-//               </div>
-//           ) : (
-//             <ul className="data">
-//               {filteredLeads.map((lead) => (
-//                 <li className="item" key={lead._id}>
-//                   <Link className="nav-link nav" to={`/leads/${lead._id}`}>
-//                     {lead.name}
-//                   </Link>
-//                 </li>
-//               ))}
-//             </ul>
-//           )}
-//         </div>
-//         {error && <p>{error}</p>}
-//       </div>
-//       <div className="status">
-//         <h3>Lead Status:</h3>
-//         <p>New: [{leadCounts.new}] Leads</p>
-//         <p>Contacted: [{leadCounts.contacted}] Leads</p>
-//         <p>Qualified: [{leadCounts.qualified}] Leads</p>
-//       </div>
-
-//       <div className="filters">
-//         <h3>Quick Filters</h3>
-//         <input
-//           type="radio"
-//           name="leadFilter"
-//           checked={filterStatus === "New"}
-//           onChange={() => dispatch(setFilterStatus("New"))}
-//         />
-//         New
-//         <input
-//           type="radio"
-//           name="leadFilter"
-//           checked={filterStatus === "Contacted"}
-//           onChange={() => dispatch(setFilterStatus("Contacted"))}
-//         />
-//         Contacted
-//       </div>
-//       <button className="lead-btn" onClick={handleAddLead}>
-//         Add New Lead
-//       </button>
-//     </>
-//   );
-// };
-
-// export default Home;
-
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads, setFilterStatus } from "../slices/leadsSlice";
@@ -144,7 +37,7 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="container-fluid">
+    <div className="bg-light py-3 container-fluid">
       {/* Sidebar */}
       <div className="row">
         <div
@@ -172,7 +65,7 @@ const Home = () => {
           style={{
             position: "sticky",
             top: 0,
-            height: "100vh",
+            minHeight: "100vh",
             overflowY: "auto",
           }}
         >
@@ -180,7 +73,7 @@ const Home = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-12 col-md-9 col-lg-10 p-4 min-vh-100">
+        <div className="col-12 col-md-9 col-lg-10 p-4">
           {/* Mobile Toggle */}
           <button
             className="btn btn-outline-primary d-md-none mb-4"
@@ -194,11 +87,8 @@ const Home = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="fw-bold text-primary mb-0">Leads Dashboard</h2>
-            <button
-              className="btn btn-success shadow-sm"
-              onClick={handleAddLead}
-            >
+            <h2 className="fw-bold text-info mb-0">Leads Dashboard</h2>
+            <button className="btn btn-dark shadow-sm" onClick={handleAddLead}>
               + Add New Lead
             </button>
           </div>
@@ -220,19 +110,36 @@ const Home = () => {
               />
             </div>
           ) : (
-            <ul className="list-group mb-4 shadow-sm">
+            <ul className="list-group mb-4 shadow-sm border rounded">
               {filteredLeads.map((lead) => (
                 <li
-                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3 border-0 border-bottom"
                   key={lead._id}
+                  style={{
+                    transition: "background 0.3s, transform 0.2s",
+                    cursor: "pointer",
+                    backgroundColor: "light",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = "#f1f3f5";
+                    e.currentTarget.style.transform = "scale(1.005)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = "#fff";
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
                 >
                   <Link
-                    className="text-decoration-none text-dark fw-semibold"
+                    className="text-decoration-none text-dark fw-medium"
                     to={`/leads/${lead._id}`}
+                    style={{ flex: 1 }}
                   >
+                    <i className="bi bi-person-fill me-2 text-secondary"></i>
                     {lead.name}
                   </Link>
-                  <span className="badge bg-info text-dark">{lead.status}</span>
+                  <span className="badge rounded-pill bg-light text-dark px-3 py-2 border">
+                    {lead.status}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -247,7 +154,7 @@ const Home = () => {
               Lead Status Overview
             </h4>
             <div className="d-flex gap-4 flex-wrap">
-              <span className="badge rounded-pill bg-primary p-3 fs-6 shadow-sm">
+              <span className="badge rounded-pill bg-info p-3 fs-6 shadow-sm">
                 New: {leadCounts.new}
               </span>
               <span className="badge rounded-pill bg-warning text-dark p-3 fs-6 shadow-sm">

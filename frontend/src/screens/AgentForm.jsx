@@ -70,7 +70,7 @@ const AgentForm = () => {
             onSubmit={handleSubmit}
             className="container mt-4 p-4 border rounded shadow bg-light"
           >
-            <h3 className="mb-4 text-primary">Create Agent</h3>
+            <h3 className="mb-4 text-info">Create Agent</h3>
 
             <div className="mb-3">
               <label htmlFor="agentName" className="form-label">
@@ -100,7 +100,7 @@ const AgentForm = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
+            <button type="submit" className="btn btn-info w-100">
               Create Agent
             </button>
           </form>

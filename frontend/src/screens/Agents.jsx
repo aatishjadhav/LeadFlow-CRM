@@ -15,7 +15,7 @@ const Agents = () => {
     dispatch(fetchAgents());
   }, [dispatch]);
   return (
-    <div className="container-fluid">
+    <div className="bg-light py-3 container-fluid">
       {/* Sidebar */}
       <div className="row">
         <div
@@ -43,7 +43,7 @@ const Agents = () => {
           style={{
             position: "sticky",
             top: 0,
-            height: "100vh",
+            minHeight: "100vh",
             overflowY: "auto",
           }}
         >
@@ -62,7 +62,7 @@ const Agents = () => {
           <div className="d-flex py-3">
           <h1>Sales Agent List</h1>
           <div className="ms-auto">
-            <Link to="/agents/add-new" className="btn btn-primary">
+            <Link to="/agents/add-new" className="btn btn-dark">
               + Add Agent
             </Link>
             </div>
@@ -83,7 +83,7 @@ const Agents = () => {
             <ul className="list-group">
             {agents?.map((agent) => (
               <li key={agent._id} className="list-group-item d-flex flex-column">
-                <strong className="text-primary">{agent.name}</strong>
+                <strong className="text-info">{agent.name}</strong>
                 <small className="text-muted">Email: {agent.email}</small>
               </li>
             ))}
