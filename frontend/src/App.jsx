@@ -1,11 +1,10 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./screens/Home";
 import Leads from "./screens/Leads";
 import Agents from "./screens/Agents";
 import LeadDetails from "./screens/LeadDetails";
 import LeadForm from "./screens/LeadForm";
 import Sidebar from "./components/Sidebar";
-import "./App.css";
 import "./index.css";
 import Report from "./screens/Settings";
 import AgentForm from "./screens/AgentForm";
@@ -19,6 +18,8 @@ import Profile from "./screens/Profile";
 import { Toaster } from "react-hot-toast";
 
 function App() {
+  const location = useLocation();
+  const hideNavbarRoutes = ["/", "/register"];
   return (
     <>
       <div className="">
@@ -34,16 +35,12 @@ function App() {
             },
           }}
         />
-
+        {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
         <div style={{ marginTop: "40px" }}>
           <Routes>
+            <Route path="/dashboard" element={<Home />} />
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-          </Routes>
-          <Navbar />
-          <Routes>
-            <Route path="/dashboard" element={<Home />} />
-
             <Route path="/leads" element={<Leads />} />
             <Route path="/agents" element={<Agents />} />
             <Route path="/leads/:leadId" element={<LeadDetails />} />
