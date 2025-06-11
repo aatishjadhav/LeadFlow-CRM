@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const BASE_URL = "https://anvaya-backend-zeta.vercel.app";
+import { BASE_URL } from "../config";
 
 export const fetchAgents = createAsyncThunk("agents/fetchAgents", async () => {
   const token = localStorage.getItem("token");

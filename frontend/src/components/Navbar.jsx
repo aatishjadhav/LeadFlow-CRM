@@ -16,7 +16,7 @@ const Navbar = () => {
       toast.info("Please login first!");
     }
   };
-  console.log("User in Navbar:", user);
+  
   return (
     <div className="header">
       <div className="both">

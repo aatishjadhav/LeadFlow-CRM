@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const BASE_URL = "https://anvaya-backend-zeta.vercel.app";
+import { BASE_URL } from "../config";
 
 export const fetchLeads = createAsyncThunk(
   "leads/fetchLeads",
@@ -18,7 +17,7 @@ export const fetchLeads = createAsyncThunk(
 
 export const fetchComments = createAsyncThunk("leads/fetchComments", async (leadId) => {
   const token = localStorage.getItem("token");
-  const response = await axios.get(`${BASE_URL}/leads/${leadId}/comments`, {
+  const response = await axios.get(`${BASE_URL}/lead/${leadId}/comments`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -28,7 +27,7 @@ export const fetchComments = createAsyncThunk("leads/fetchComments", async (lead
 
 export const addComments = createAsyncThunk("leads/addComments", async ({ leadId, author, commentText }) => {
   const token = localStorage.getItem("token");
-  const response = await axios.post(`${BASE_URL}/leads/${leadId}/comments`, {author, commentText}, {
+  const response = await axios.post(`${BASE_URL}/lead/${leadId}/comments`, {author, commentText}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -40,7 +39,7 @@ export const fetchPipelineData = createAsyncThunk(
   "leads/fetchPipelineData",
   async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`${BASE_URL}/report/pipeline`, {
+    const response = await axios.get(`${BASE_URL}/leads/report/pipeline`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,7 +50,7 @@ export const fetchPipelineData = createAsyncThunk(
 
 export const fetchClosedLeads = createAsyncThunk("leads/fetchClosedLeads", async () => {
   const token = localStorage.getItem("token");
-  const response = await axios.get(`${BASE_URL}/report/last-week`, {
+  const response = await axios.get(`${BASE_URL}/leads/report/last-week`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
