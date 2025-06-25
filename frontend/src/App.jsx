@@ -7,6 +7,7 @@ import LeadForm from "./screens/LeadForm";
 import Sidebar from "./components/Sidebar";
 import "./index.css";
 import Report from "./screens/Settings";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AgentForm from "./screens/AgentForm";
 import LeadReport from "./screens/LeadReport";
 import Navbar from "./components/Navbar";
@@ -44,15 +45,39 @@ function App() {
             <Route path="/leads" element={<Leads />} />
             <Route path="/agents" element={<Agents />} />
             <Route path="/leads/:leadId" element={<LeadDetails />} />
-            <Route path="/add-lead" element={<LeadForm />} />
-            <Route path="/edit-lead/:leadId" element={<LeadForm />} />
-
-            <Route path="/agents/add-new" element={<AgentForm />} />
             <Route path="/report" element={<LeadReport />} />
             <Route path="/settings" element={<Profile />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/add-lead"
+              element={
+                <ProtectedRoute
+                  element={<LeadForm />}
+                  allowedRoles={["agent"]}
+                />
+              }
+            />
+            <Route
+              path="/edit-lead/:leadId"
+              element={
+                <ProtectedRoute
+                  element={<LeadForm />}
+                  allowedRoles={["agent"]}
+                />
+              }
+            />
+            <Route
+              path="/agents/add-new"
+              element={
+                <ProtectedRoute
+                  element={<AgentForm />}
+                  allowedRoles={["admin"]}
+                />
+              }
+            />
           </Routes>
         </div>
-        {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       </div>
     </>
   );
