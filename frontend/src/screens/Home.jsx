@@ -9,6 +9,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { user } = useSelector((state) => state.auth);
+
   const { leads, filterStatus, status, error } = useSelector(
     (state) => state.leads
   );
@@ -87,10 +89,11 @@ const Home = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="fw-bold text-info mb-0">Leads Dashboard</h2>
-            <button className="btn btn-dark shadow-sm" onClick={handleAddLead}>
+            <h2 className="fw-bold text-info mb-0">{user.role == "admin" ? "Leads Dashboard" : "Leads Assigned to You"}</h2>
+            {user.role == "admin" && <button className="btn btn-dark shadow-sm" onClick={handleAddLead}>
               + Add New Lead
-            </button>
+            </button>}
+            
           </div>
 
           {/* Loader */}

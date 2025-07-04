@@ -1,20 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import { useSearchParams } from "react-router-dom";
-import { fetchLeads } from "../slices/leadsSlice";
+import { deleteLead, fetchLeads } from "../slices/leadsSlice";
 import { fetchAgents } from "../slices/agentsSlice";
 import "./leads.css";
 import Sidebar from "../components/Sidebar";
+import toast from "react-hot-toast";
 
 const Leads = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Get leads and agents from Redux store
+  const navigate = useNavigate();
   const { leads, status } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.agents);
+
 
   // Extract filter values from URL
   const filters = {
@@ -35,6 +37,11 @@ const Leads = () => {
     value ? newParams.set(key, value) : newParams.delete(key);
     setSearchParams(newParams);
   };
+
+  const handleDelete = (leadsId) => {
+    dispatch(deleteLead(leadsId));
+    toast.error("Lead deleted successfully");
+  }
 
   return (
     <div className="bg-light py-3 container-fluid">
@@ -82,7 +89,7 @@ const Leads = () => {
             ☰ Menu
           </button>
           <h1 className="text-center text-dark fw-bold display-6 mb-4">
-            <i className="bi bi-person-lines-fill me-2 text-primary"></i>
+            <i className="bi bi-briefcase-fill me-2 text-primary"></i>
             Leads Overview
           </h1>
 
@@ -175,27 +182,53 @@ const Leads = () => {
               <div className="row">
                 {leads.map((lead, index) => (
                   <div key={lead._id} className="col-md-6 col-lg-4 mb-4">
-                    <div className="card shadow-sm border-light rounded">
-                      <div className="card-body">
-                        <h5 className="card-title text-dark">
+                    <div className="card shadow-sm border-0 rounded-4">
+                      <div className="card-body p-4">
+                        <h5 className="card-title fw-bold text-dark mb-3">
+                          <i className="bi bi-briefcase-fill me-2 text-primary"></i>
                           Lead #{index + 1} - {lead.name}
                         </h5>
-                        <p className="card-text">
-                          <strong>Status:</strong> {lead.status || "No Status"}
-                        </p>
-                        <p className="card-text">
-                          <strong>Sales Agent:</strong>{" "}
-                          {lead.salesAgent?.name || "No Agent"}
-                        </p>
-                        <p className="card-text">
-                          <strong>Source:</strong> {lead.source || "No Source"}
-                        </p>
-                        <Link
-                          to={`/leads/${lead._id}`}
-                          className="btn btn-outline-secondary btn-sm mt-2"
-                        >
-                          View Details
-                        </Link>
+
+                        <ul className="list-unstyled text-muted mb-4">
+                          <li>
+                            <strong>Status:</strong>{" "}
+                            {lead.status || "No Status"}
+                          </li>
+                          <li>
+                            <strong>Sales Agent:</strong>{" "}
+                            {lead.salesAgent?.name || "No Agent"}
+                          </li>
+                          <li>
+                            <strong>Source:</strong>{" "}
+                            {lead.source || "No Source"}
+                          </li>
+                        </ul>
+
+                        <div className="d-flex justify-content-between">
+                          <Link
+                            to={`/leads/${lead._id}`}
+                            className="btn btn-outline-secondary rounded-pill btn-sm"
+                          >
+                            <i className="bi bi-eye-fill me-1"></i> View
+                          </Link>
+
+                          <div className="d-flex gap-2">
+                            <Link
+                              to={`/edit-lead/${lead._id}`}
+                               state={{ getLead: lead }}
+                              className="btn btn-outline-primary rounded-pill btn-sm"
+                            >
+                              <i className="bi bi-pencil-fill me-1"></i> Edit
+                            </Link>
+
+                            <button
+                              className="btn btn-outline-danger rounded-pill btn-sm"
+                              onClick={() => handleDelete(lead._id)}
+                            >
+                              <i className="bi bi-trash-fill me-1"></i> Delete
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

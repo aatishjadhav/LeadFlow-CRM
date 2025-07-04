@@ -26,6 +26,7 @@ Stay organized, automate workflows, and turn every opportunity into success with
 > 📧 **Email:** `atishh@gmail.com`  
 > 🔑 **Password:** `atish@123`  
 
+
 ---
 
 ## Quick Start
@@ -49,6 +50,7 @@ npm run dev
 - 🚂 Express.js  
 - 🔐 JWT (JSON Web Token) 
 - 📧 Nodemailer (Email Notifications via Gmail SMTP) 
+- 🔐 JWT (JSON Web Token)  
 - 🗃️ Git For Version Control
 - 🌐 Vercel for Deployment
 

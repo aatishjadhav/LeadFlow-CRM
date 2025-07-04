@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { addNewLead, fetchLeads, updateLead } from "../slices/leadsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAgents } from "../slices/agentsSlice";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Sidebar from "../components/Sidebar";
 
 const LeadForm = () => {
@@ -147,11 +147,13 @@ const LeadForm = () => {
                 onChange={(e) => setSalesAgent(e.target.value)}
                 className="form-select"
               >
-                {agents?.map((agent) => (
-                  <option key={agent._id} value={agent._id}>
-                    {agent.name}
-                  </option>
-                ))}
+                {agents
+                  ?.filter((agent) => agent.role == "agent")
+                  .map((agent) => (
+                    <option key={agent._id} value={agent._id}>
+                      {agent.name}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -201,17 +203,17 @@ const LeadForm = () => {
                 onChange={(e) => setTags(e.target.value)}
                 className="form-select"
               >
-                {leads.map((lead) =>
-                  lead.tags && Array.isArray(lead.tags) ? (
-                    <option key={lead._id} value={lead.tags.join(", ")}>
-                      {lead.tags.join(", ")}
+                {[...new Set(leads?.map((lead) => lead?.tags?.join(", ")))].map(
+                  (tagCombo) => (
+                    <option key={tagCombo} value={tagCombo}>
+                      {tagCombo}
                     </option>
-                  ) : null
+                  )
                 )}
               </select>
             </div>
 
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-dark w-100">
               {leadToEdit ? "Update Lead" : "+ Add Lead"}
             </button>
           </form>

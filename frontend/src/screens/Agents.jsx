@@ -10,6 +10,7 @@ import Sidebar from "../components/Sidebar";
 const Agents = () => {
   const dispatch = useDispatch();
   const { agents, status, error } = useSelector((state) => state.agents);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchAgents());
@@ -60,13 +61,15 @@ const Agents = () => {
             ☰ Menu
           </button>
           <div className="d-flex py-3">
-          <h1>Sales Agent List</h1>
-          <div className="ms-auto">
-            <Link to="/agents/add-new" className="btn btn-dark">
-              + Add Agent
-            </Link>
+            <h1>Sales Agent List</h1>
+            <div className="ms-auto">
+              {user.role == "admin" && (
+                <Link to="/agents/add-new" className="btn btn-dark">
+                  + Add Agent
+                </Link>
+              )}
             </div>
-            </div>
+          </div>
           {status === "loading" ? (
             <RotatingLines
               visible={true}
@@ -81,18 +84,18 @@ const Agents = () => {
             />
           ) : (
             <ul className="list-group">
-            {agents?.map((agent) => (
-              <li key={agent._id} className="list-group-item d-flex flex-column">
-                <strong className="text-info">{agent.name}</strong>
-                <small className="text-muted">Email: {agent.email}</small>
-              </li>
-            ))}
-          </ul>
-          
+              {agents?.map((agent) => (
+                <li
+                  key={agent._id}
+                  className="list-group-item d-flex flex-column"
+                >
+                  <strong className="text-info">{agent.name}</strong>
+                  <small className="text-muted">Email: {agent.email}</small>
+                </li>
+              ))}
+            </ul>
           )}
           {error && <p>{error}</p>}
-
-          
         </div>
       </div>
     </div>

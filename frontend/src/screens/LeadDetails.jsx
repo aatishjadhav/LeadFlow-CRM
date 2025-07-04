@@ -12,6 +12,8 @@ const LeadDetails = () => {
   const dispatch = useDispatch();
   const { leads, comments } = useSelector((state) => state.leads);
   const { agents } = useSelector((state) => state.agents);
+  const { user } = useSelector((state) => state.auth);
+
   const { leadId } = useParams();
   const [selectedAgent, setSelectedAgent] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -108,13 +110,15 @@ const LeadDetails = () => {
                 <p className="card-text">
                   <strong>Time to Close:</strong> {getLead.timeToClose} days
                 </p>
-                <Link
-                  className="btn btn-outline-info mt-3"
-                  to={`/edit-lead/${getLead._id}`}
-                  state={{ getLead }}
-                >
-                  Edit Lead
-                </Link>
+                {user.role == "admin" && (
+                  <Link
+                    className="btn btn-outline-info mt-3"
+                    to={`/edit-lead/${getLead._id}`}
+                    state={{ getLead }}
+                  >
+                    Edit Lead
+                  </Link>
+                )}
               </div>
             </div>
 
