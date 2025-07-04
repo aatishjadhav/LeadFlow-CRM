@@ -23,8 +23,9 @@ Stay organized, automate workflows, and turn every opportunity into success with
 ## 🔐 Login
 
 > **Guest Credentials** <br>
-> 📧 **Email:** `john@gmail.com`  
-> 🔑 **Password:** `john@123`  
+> 📧 **Email:** `atishh@gmail.com`  
+> 🔑 **Password:** `atish@123`  
+
 
 ---
 
@@ -47,6 +48,8 @@ npm run dev
 - 🎀 Bootstrap  
 - 🟩 Node.js  
 - 🚂 Express.js  
+- 🔐 JWT (JSON Web Token) 
+- 📧 Nodemailer (Email Notifications via Gmail SMTP) 
 - 🔐 JWT (JSON Web Token)  
 - 🗃️ Git For Version Control
 - 🌐 Vercel for Deployment
@@ -63,6 +66,9 @@ npm run dev
 
 - 🔐 **Secure Authentication (Login, Signup, Logout)**  
   Robust JWT-based authentication system allowing users to safely register, log in, and log out with protected access control.
+
+  - 📧 **Automated Email Notifications**  
+  Instantly notify sales agents via email when leads are assigned to them — powered by Nodemailer and Gmail SMTP integration.
 
 - 📄 **Lead Details View**  
   Dive into individual lead details including name, assigned sales agent, source, and more — with built-in options to edit or update the lead information.
