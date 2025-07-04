@@ -3,7 +3,7 @@ import "./agents.css";
 import { useDispatch } from "react-redux";
 import { addNewAgent } from "../slices/agentsSlice";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Sidebar from "../components/Sidebar";
 
 const AgentForm = () => {

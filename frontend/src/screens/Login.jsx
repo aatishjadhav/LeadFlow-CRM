@@ -28,8 +28,8 @@ const Login = () => {
 
   const handleGuestLogin = async () => {
     const guestCredentials = {
-      email: "john@gmail.com",
-      password: "john@123",
+      email: "atishh@gmail.com",
+      password: "atish@123",
     };
 
     try {

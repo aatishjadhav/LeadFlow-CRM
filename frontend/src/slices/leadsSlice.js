@@ -11,6 +11,7 @@ export const fetchLeads = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     });
+    
     return response.data;
   }
 );

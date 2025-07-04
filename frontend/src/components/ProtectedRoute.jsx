@@ -2,13 +2,23 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AccessDenied from "./AccessDenied";
 
-const ProtectedRoute = ({ element: Component, allowedRoles }) => {
-  const user = useSelector((state) => state.auth);
+// const ProtectedRoute = ({ element: Component, allowedRoles }) => {
+//   const user = useSelector((state) => state.auth);
+
+//   if (!user) return <Navigate to="/" replace />;
+//   if (!allowedRoles.includes(user.role)) return <AccessDenied/>;
+
+//   return <Component />;
+// };
+
+// export default ProtectedRoute;
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const user = useSelector((state) => state.auth.user);
 
   if (!user) return <Navigate to="/" replace />;
-  if (!allowedRoles.includes(user.role)) return <AccessDenied/>;
+  if (!allowedRoles.includes(user.role)) return <AccessDenied />;
 
-  return <Component />;
+  return children;
 };
 
 export default ProtectedRoute;

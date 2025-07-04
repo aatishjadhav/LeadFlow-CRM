@@ -16,13 +16,19 @@ const Navbar = () => {
       toast.info("Please login first!");
     }
   };
-  
+
   return (
     <div className="header">
       <div className="both">
         <div className="cont">
-          <img src={logo} alt="" className="logo rounded-circle nav-logo" />
-          <p className="heading">LeadFlow</p>
+          <Link to="/" className="cont text-decoration-none text-dark">
+            <img
+              src={logo}
+              alt="LeadFlow"
+              className="logo rounded-circle nav-logo"
+            />
+            <p className="heading">LeadFlow</p>
+          </Link>
         </div>
         <div className="right">
           <Link
